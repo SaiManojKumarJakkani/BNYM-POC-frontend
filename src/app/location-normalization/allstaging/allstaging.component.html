@@ -1,0 +1,32 @@
+<html>
+    <body>
+    <div>
+        <div>
+            <br>
+    <table >
+        <thead>
+            <tr>
+                <th>Location Name</th>
+                <th>Normalization Location Name</th>
+                <th>Status</th>
+                <th>Action</th>
+                <th>Rejection Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let staging of allstaging">
+                 <td>{{staging.locationName}}</td>
+                 <td>{{staging.normalizedLocation}}</td>
+                 <td>{{staging.status}}</td>
+                 <td>
+                   <button >View</button><br>
+                   <button >Edit</button>
+                 </td>
+                 <td>  </td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+    </div>
+</body>
+    </html>
