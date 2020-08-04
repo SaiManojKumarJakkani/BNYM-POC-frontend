@@ -3,6 +3,14 @@
     <div>
         <div>
             <br>
+            <div>
+                <div class="tabcontent">
+                    <label ><input type="file" (change)="selectFile($event)"></label>
+                    <br>
+                <button class="btnsend" [disabled]="!selectedFiles" (click)="upload()"><i>Bulk Upload</i></button>
+                </div>
+            </div>
+            <br>
     <table >
         <thead>
             <tr>
