@@ -1,1 +1,28 @@
-<p>allapproval works!</p>
+<html>
+    <body>
+    <div>
+        <div>
+            <br>
+    <table >
+        <thead>
+            <tr>
+                <th>Location Name</th>
+                <th>Normalization Location Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let approval of allapproval">
+                 <td>{{approval.locationName}}</td>
+                 <td>{{approval.normalizedLocation}}</td>
+                 <td>
+                   <button >View</button><br>
+                   <button >Edit</button>
+                 </td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+    </div>
+</body>
+    </html>
