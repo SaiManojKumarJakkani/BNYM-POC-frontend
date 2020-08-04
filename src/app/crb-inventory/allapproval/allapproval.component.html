@@ -1,0 +1,40 @@
+<!-- // it will contain a record which will be Approved or reject -->
+<div class="container">
+    
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Source</th>
+                <th>Date Of Item</th>
+                <th>Ecoo Company Name</th>
+                <th>ISIN</th>
+                <th>CUSPIN</th>
+                <th>SEDOL</th>
+                <th>Private Company Name</th>
+                <th>Non Permisible Expected Date</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let approval of allapproval">
+                 <td>{{approval.source}}</td>
+                 <td>{{approval.dateOfItem}}</td>
+                 <td>{{approval.ecooCompanyName}}</td>
+                 <td>{{approval.isin}}</td>
+                 <td>{{approval.cuspin}}</td>
+                 <td>{{approval.sedol}}</td>
+                 <td>{{approval.privateComapanyName}}</td>
+                 <td>{{approval.nonPermisibleExpectedDate}}</td>
+                 <td>{{approval.status}}</td>
+                 <td>
+                    <button class="btn btn-sm btn-success">
+                        <i class="fa fa-thumbs-up"></i>Approve</button>
+                      <button class="btn btn-sm btn-danger" >
+                        <i class="fa fa-thumbs-down"></i>Reject</button>
+                 </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
