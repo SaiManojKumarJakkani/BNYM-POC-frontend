@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpEvent, HttpRequest, HttpResponse} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { LocationStaging } from './LocationStaging';
+import { map } from 'rxjs/operators';
 
 
 @Injectable({
@@ -12,10 +13,30 @@ export class LocationNormalization {
 
     
     constructor(private http:HttpClient){
-        this.baseUrl='http://localhost:8080/';
+        this.baseUrl='http://localhost:8080/location/';
     }
+    httpOptions = {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json','observe':'response'}
+        )
+    };
+
     getAllStaging():Observable<LocationStaging[]>{
-        const newurl=`${this.baseUrl}/location/allStaging`;
+        const newurl=`${this.baseUrl}/allStaging`;
         return this.http.get<LocationStaging[]>(newurl);
+    }
+    getAllApproval():Observable<LocationStaging[]>{
+        const newurl=`${this.baseUrl}/allInApproval`;
+        return this.http.get<LocationStaging[]>(newurl);
+    }
+    uploadFile(file:File){
+        const formdata: FormData = new FormData();
+        formdata.append('file', file);
+        const req = new HttpRequest('POST', `${this.baseUrl}/uploaddetails`, formdata, {
+        reportProgress: true,
+        responseType: 'json'
+        });
+        return this.http.request(req);
+        //const newurl=`${this.baseUrl}/uploaddetails`;
+        //return this.http.post(newurl,file).pipe(map((res:any)=>res.json()))
     }
 }
