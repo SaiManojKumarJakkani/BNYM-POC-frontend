@@ -1,18 +1,22 @@
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<body ng-app="">
 <div class="container">
     <div class="border">
         <button class="btn btn-md btn-outline-primary" (click)="open(content)">
             <i class="fa fa-plus"></i>Create New</button>
             <div>
                 <div class="tabcontent">
-                    <label ><input type="file" (change)="selectFile($event)"></label>
+                    <label><input type="file" id = "file" (change)="selectFile($event)"><span class="file-custom"></span></label>
                     <br>
-                <button class="btnsend" [disabled]="!selectedFiles" (click)="upload()"><i>Bulk Upload</i></button>
+                <button class="btnsend" [disabled]="!selectedFiles" (click)="upload()"><i class="fa fa-upload">Bulk Upload</i></button>
                 </div>
             </div>
     </div>
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
+                <th>Check<input type="checkbox" ng-model="all"></th>
                 <th>Source</th>
                 <th>Date Of Item</th>
                 <th>Ecoo Company Name</th>
@@ -24,11 +28,11 @@
                 <th>Status</th>
                 <th>Date of Modified</th>
                 <th>Actions</th>
-                <th>Rejection Notes</th>
             </tr>
         </thead>
             <tbody>
                 <tr *ngFor="let staging of allstaging">
+                    <td><input type="checkbox" ng-checked="all"></td>
                     <td>{{staging.source}}</td>
                     <td>{{staging.dateOfItem}}</td>
                     <td>{{staging.ecooCompanyName}}</td>
@@ -39,13 +43,12 @@
                     <td>{{staging.nonPermisibleExpectedDate}}</td>
                     <td>{{staging.status}}</td>
                     <td>{{staging.date}}</td>
-                    <td>
+                    <td class="controlButton">
                         <button class="btn btn-sm btn-info" (click) = "openDetails(contentDetails, staging)">
-                          <i class="fa fa-search"></i>View</button>
+                          <i class="fa fa-eye"></i>View</button>
                         <button class="btn btn-sm btn-warning" >
                           <i class="fa fa-edit"></i>Edit</button>
                     </td>
-                    <td><input type="text" placeholder="enter your reason"></td>
                 </tr>
             </tbody>
     </table>
@@ -175,9 +178,6 @@
                           <input id="nped" class="form-control" readonly >
                         </div>
                       </div>
-                      <div class="border text-center">
-                        <button data-dismiss="modal" class="btn btn-info">Submit</button>
-                      </div>
                   </form>
                 </div>
                 <div class="modal-footer">
@@ -259,3 +259,5 @@
                   </ng-template>             
   -->
 
+</body>
+</html>

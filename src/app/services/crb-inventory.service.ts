@@ -34,7 +34,7 @@ export class CrbInventoryService {
   uploadFile(file:File){
     const formdata: FormData = new FormData();
     formdata.append('file', file);
-    const req = new HttpRequest('POST', `${this.baseUrl}/uploadFile`, formdata, {
+    const req = new HttpRequest('POST', `${this.baseUrl}/crb/uploadFile`, formdata, {
     reportProgress: true,
     responseType: 'json'
     });
