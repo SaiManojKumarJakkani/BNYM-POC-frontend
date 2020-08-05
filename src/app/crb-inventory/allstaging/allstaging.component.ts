@@ -117,7 +117,7 @@ upload() {
     console.log("check",event);
     
     if (event instanceof HttpResponse) {
-      this.message = event.body.toString();
+      this.message = event.body.message;
       alert(this.message);
     }
     this.ngOnInit();
