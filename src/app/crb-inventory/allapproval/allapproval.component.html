@@ -27,14 +27,35 @@
                  <td>{{approval.privateComapanyName}}</td>
                  <td>{{approval.nonPermisibleExpectedDate}}</td>
                  <td>{{approval.status}}</td>
-                 <td>
-                    <button class="btn btn-sm btn-success">
+                 <td class="controlButton">
+                    <button class="btn btn-sm btn-success" >
                         <i class="fa fa-thumbs-up"></i>Approve</button>
-                      <button class="btn btn-sm btn-danger" >
+                      <button class="btn btn-sm btn-danger" (click) = "openReject(content)" >
                         <i class="fa fa-thumbs-down"></i>Reject</button>
                  </td>
             </tr>
         </tbody>
     </table>
 </div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Declare Reason for your Rejection!</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+             <span aria-hidden="true">&times;</span>
+            </button>
+    </div>
+    <div class="modal-body">
+        <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+            <div class="form-group">
+                  <div class="input-group">
+                    <input id="source" name = "source" class="form-control" ngModel>
+                  </div>
+                  <div class="border text-center">
+                    <button data-dismiss="modal" class="btn btn-info">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</ng-template>
 
