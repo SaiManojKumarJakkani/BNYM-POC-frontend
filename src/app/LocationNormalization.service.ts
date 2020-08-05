@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpEvent, HttpRequest, HttpResponse} from '@a
 import { Observable } from 'rxjs';
 import { LocationStaging } from './LocationStaging';
 import { map } from 'rxjs/operators';
+import { ResponseMessage } from './ResponseMessage';
 
 
 @Injectable({
@@ -28,7 +29,7 @@ export class LocationNormalization {
         const newurl=`${this.baseUrl}/allInApproval`;
         return this.http.get<LocationStaging[]>(newurl);
     }
-    uploadFile(file:File){
+    uploadFile(file:File):Observable<HttpEvent<any>>{
         const formdata: FormData = new FormData();
         formdata.append('file', file);
         const req = new HttpRequest('POST', `${this.baseUrl}/uploaddetails`, formdata, {
@@ -38,5 +39,9 @@ export class LocationNormalization {
         return this.http.request(req);
         //const newurl=`${this.baseUrl}/uploaddetails`;
         //return this.http.post(newurl,file).pipe(map((res:any)=>res.json()))
+    }
+    saveDetails(l:LocationStaging):Observable<ResponseMessage>{
+        const newurl=`${this.baseUrl}/savedetails`;
+        return this.http.post<ResponseMessage>(newurl,l,this.httpOptions);
     }
 }

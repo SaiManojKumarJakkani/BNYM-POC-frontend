@@ -1,16 +1,17 @@
 <html>
     <body>
-    <div>
-        <div>
-            <br>
-            <div>
-                <div class="tabcontent">
-                    <label ><input type="file" (change)="selectFile($event)"></label>
-                    <br>
-                <button class="btnsend" [disabled]="!selectedFiles" (click)="upload()"><i>Bulk Upload</i></button>
+    <div class="container">
+        <div class="border">
+            <button class="btn btn-md btn-outline-primary" (click)="open(content)">
+                <i class="fa fa-plus"></i>Create New</button>
+                <div>
+                    <div class="tabcontent">
+                        <label ><input type="file" (change)="selectFile($event)"></label>
+                        <br>
+                    <button class="btnsend" [disabled]="!selectedFiles" (click)="upload()"><i>Bulk Upload</i></button>
+                    </div>
                 </div>
-            </div>
-            <br>
+        </div>
     <table >
         <thead>
             <tr>
@@ -35,6 +36,35 @@
         </tbody>
     </table>
     </div>
-    </div>
+    <ng-template #content let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Create New</h4>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                 <span aria-hidden="true">&times;</span>
+                </button>
+        </div>
+        <div class="modal-body">
+            <form #f="ngForm" (ngSubmit)="onSubmit(f.value)" novalidate>
+                <div class="form-group">
+                    <label for="locationName">Location Name</label>
+                    <div class="input-group">
+                        <input id="locationName" name = "locationName" class="form-control" ngModel>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="normalizedLocation">Normalized Location</label>
+                    <div class="input-group">
+                      <input id="normalizedLocation" name="normalizedLocation" class="form-control" ngModel>
+                    </div>
+                </div>
+                <div class="border text-center">
+                        <button data-dismiss="modal" class="btn btn-info">Submit</button>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+        </div>
+     </ng-template>    
 </body>
     </html>

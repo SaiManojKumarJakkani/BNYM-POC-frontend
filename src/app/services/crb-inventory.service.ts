@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpRequest, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpHeaders, HttpResponse, HttpEvent } from '@angular/common/http';
 import { CRBInventoryStaging } from '../modal/CRBInventoryStaging';
 import { Observable } from 'rxjs';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -31,7 +31,7 @@ export class CrbInventoryService {
     return this.httpclient.get<CRBInventoryStaging[]>(newurl);
   }
 
-  uploadFile(file:File){
+  uploadFile(file:File):Observable<HttpEvent<any>>{
     const formdata: FormData = new FormData();
     formdata.append('file', file);
     const req = new HttpRequest('POST', `${this.baseUrl}/crb/uploadFile`, formdata, {
