@@ -1,9 +1,10 @@
 <html>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
     <body>
-    <div>
+    <div class="container">
         <div>
-            <br>
-    <table >
+    <table class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>Location Name</th>
@@ -15,13 +16,16 @@
             <tr *ngFor="let approval of allapproval">
                  <td>{{approval.locationName}}</td>
                  <td>{{approval.normalizedLocation}}</td>
-                 <td>
-                   <button >View</button><br>
+                 <td class="controlButton">
+                    <button class="btn btn-sm btn-success" (click)="approvereject(approval,'approve')">
+                        <i class="fa fa-thumbs-up"></i>Approve</button>
+                      <button class="btn btn-sm btn-danger" (click) = "approvereject(approval,'reject')" >
+                        <i class="fa fa-thumbs-down"></i>Reject</button>
                  </td>
             </tr>
         </tbody>
     </table>
     </div>
-    </div>
+    </div> 
 </body>
     </html>

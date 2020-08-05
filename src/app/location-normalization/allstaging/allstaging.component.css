@@ -1,0 +1,25 @@
+.controlButton{
+    display: flex;
+    padding: 8px;
+}
+.controlButton button{
+    margin-left: 3px;
+    width: 5rem;
+    height: 2rem;
+}
+.tabcontent{
+-webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.btnsend {
+    background-color: white;
+      border: none;
+      color: grey;
+      font-size: 15px;
+      cursor: pointer;
+    }
+.btnsend:hover {
+      color:  #56baed;
+      font-size: 25px;
+}

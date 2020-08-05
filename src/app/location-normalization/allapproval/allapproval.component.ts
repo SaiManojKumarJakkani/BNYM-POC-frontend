@@ -17,5 +17,17 @@ export class AllapprovalComponent implements OnInit {
       this.allapproval=resp;
     })
   }
+  approvereject(l:LocationStaging,a:string){
+    if(confirm("Are you sure you want to "+a+"?"))
+    this.locationNormalization.approvereject(l,a).subscribe(resp=>{
+      if(resp){
+      alert(resp.message);
+      this.ngOnInit();
+      }
+    })
+
+
+
+  }
 
 }

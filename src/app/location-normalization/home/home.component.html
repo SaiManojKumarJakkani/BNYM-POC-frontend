@@ -1,12 +1,25 @@
 <html>
   <body>
-    <br>
-    <div>
-    <a routerLink="allstaging"><button >Location Normalization details</button></a>
-    <a routerLink="allapproval"><button>My Approvals</button></a>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm">
+          <a routerLink="allstaging"
+             role="button"
+             class="btn btn-outline-primary btn-lg btn-block text-center">
+            <span><i class="fa fa-users"></i></span>
+            <br>Location Normalization details
+          </a>
+        </div>
+        <div class="col-sm">
+          <a routerLink="allapproval"
+             role="button"
+             class="btn btn-outline-primary btn-lg btn-block text-center">
+            <span><i class="fa fa-clipboard"></i></span>
+            <br>My Approvals
+          </a>
+        </div>
+      </div>
     </div>
-    <br>
     <div><router-outlet></router-outlet></div>
   </body>
-
 </html>
