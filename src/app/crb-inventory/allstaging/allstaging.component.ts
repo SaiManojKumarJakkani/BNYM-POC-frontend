@@ -20,6 +20,9 @@ export class AllstagingComponent implements OnInit {
   selectedFiles: FileList;
   currentFileUpload: File;
   message : string;
+  selectApproval : CRBInventoryStaging[];
+  checked : boolean;
+
 
   constructor( private crbService : CrbInventoryService,
      private modalService : NgbModal,
@@ -29,7 +32,9 @@ export class AllstagingComponent implements OnInit {
   ngOnInit(): void {
 
     this.crbService.getAllStaging().subscribe(response => { 
-      this.allstaging = response;});
+      this.allstaging = response;
+    })
+    this.checked = null;
     // this.editForm =  this.fb.group({
     //   satgingId: [''],
     //   source: [''],
@@ -61,6 +66,7 @@ export class AllstagingComponent implements OnInit {
     }
   }
 
+  //add
   onSubmit(f: NgForm) {
     const url = 'http://localhost:8080/crb/add';
     this.http.post(url, f.value)
@@ -70,6 +76,7 @@ export class AllstagingComponent implements OnInit {
     this.modalService.dismissAll(); //dismiss the modal
   }
 
+  //details/view
   openDetails(targetModal, staging: CRBInventoryStaging) {
     this.modalService.open(targetModal, {
      centered: true,
@@ -85,26 +92,6 @@ export class AllstagingComponent implements OnInit {
     document.getElementById('pcn').setAttribute('value', staging.privateComapanyName);
     document.getElementById('nped').setAttribute('value', staging.nonPermisibleExpectedDate);
  }
-
-//  openEdit(targetModal, staging: CRBInventoryStaging) {
-//   this.modalService.open(targetModal, {
-//    centered: true,
-//    backdrop: 'static',
-//    size: 'lg'
-//  });
-//  this.editForm.patchValue( {
-//   id: staging.stagingId, 
-//   source: staging.source,
-//   dateOfItem: staging.dateOfItem,
-//   ecooCompanyName: staging.ecooCompanyName,
-//   isin: staging.isin,
-//   cuspin: staging.cuspin,
-//   sedol: staging.sedol,
-//   privateComapanyName: staging.privateComapanyName,
-//   nonPermisibleExpectedDate: staging.nonPermisibleExpectedDate,
-// });
-
-// }
  
 selectFile(event) {
   this.selectedFiles = event.target.files;
@@ -126,6 +113,39 @@ upload() {
 }
 }
 
+//select checked
+onSelect(){
+  this.crbService.inApproval(this.selectApproval).subscribe(response => {
+    alert(response.message);
+    this.ngOnInit();
+  })
+}
+
+addApproval(stagingId:CRBInventoryStaging){
+  if(!this.selectApproval) 
+  this.selectApproval=[stagingId]
+  else{
+  if(this.selectApproval.find(element => element == stagingId))
+  { console.log("Existed",this.selectApproval.findIndex(element => element == stagingId));
+    this.selectApproval.splice(this.selectApproval.findIndex(element => element == stagingId),1) 
+  }
+  else      
+  this.selectApproval.push(stagingId) ;    
+  }
+}
+
+addApprovalAll(){
+  if(this.checked==true){
+  this.checked=false;
+  this.selectApproval=null;
+  }
+  else{
+  this.checked=true;
+  this.selectApproval=this.allstaging.filter(element=> element.status=="InDraft");
+  }
+}
+
+//reject onSubmit
 onSubmit2(f: NgForm) {
   const url = 'http://localhost:8080/crb/stagingId';
   this.http.post(url, f.value)
@@ -134,5 +154,25 @@ onSubmit2(f: NgForm) {
     });
   this.modalService.dismissAll(); //dismiss the modal
 }
+
+//  openEdit(targetModal, staging: CRBInventoryStaging) {
+//   this.modalService.open(targetModal, {
+//    centered: true,
+//    backdrop: 'static',
+//    size: 'lg'
+//  });
+//  this.editForm.patchValue( {
+//   id: staging.stagingId, 
+//   source: staging.source,
+//   dateOfItem: staging.dateOfItem,
+//   ecooCompanyName: staging.ecooCompanyName,
+//   isin: staging.isin,
+//   cuspin: staging.cuspin,
+//   sedol: staging.sedol,
+//   privateComapanyName: staging.privateComapanyName,
+//   nonPermisibleExpectedDate: staging.nonPermisibleExpectedDate,
+// });
+
+// }
 
 }

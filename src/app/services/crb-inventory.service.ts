@@ -3,6 +3,7 @@ import { HttpClient, HttpRequest, HttpHeaders, HttpResponse, HttpEvent } from '@
 import { CRBInventoryStaging } from '../modal/CRBInventoryStaging';
 import { Observable } from 'rxjs';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { ResponseMessage } from '../ResponseMessage';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,10 @@ export class CrbInventoryService {
     //const newurl=`${this.baseUrl}/uploaddetails`;
     //return this.http.post(newurl,file).pipe(map((res:any)=>res.json()))
 }
-    
+
+inApproval(crb : CRBInventoryStaging[]) : Observable<ResponseMessage>{
+  const newUrl = `${this.baseUrl}/crb/toInApproval`;
+  return this.httpclient.put<ResponseMessage>(newUrl, crb);
+} 
 
 }

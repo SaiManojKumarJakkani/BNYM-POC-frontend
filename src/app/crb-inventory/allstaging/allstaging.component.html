@@ -16,7 +16,9 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>Check<input type="checkbox" ng-model="all"></th>
+                <th>All
+                  <input type="checkbox" id="stagingId" name="stagingId" class="form-control" (click)="addApprovalAll()" [(checked)]="checked">
+                </th>
                 <th>Source</th>
                 <th>Date Of Item</th>
                 <th>Ecoo Company Name</th>
@@ -32,7 +34,11 @@
         </thead>
             <tbody>
                 <tr *ngFor="let staging of allstaging">
-                    <td><input type="checkbox" ng-checked="all"></td>
+                    <td >
+                      <div *ngIf="staging.status=='InDraft'; else elseBlock"><input type="checkbox" id="stagingId" name="stagingId" value="{{staging.stagingId}}" class="form-control" (click)="addApproval(staging)" [(checked)]="checked">
+                      </div>
+                      <ng-template #elseBlock> </ng-template>
+                    </td>
                     <td>{{staging.source}}</td>
                     <td>{{staging.dateOfItem}}</td>
                     <td>{{staging.ecooCompanyName}}</td>
@@ -52,6 +58,9 @@
                 </tr>
             </tbody>
     </table>
+    <div class="border text-center">
+      <button data-dismiss="modal" class="btn btn-info" (click)="onSelect()">Submit</button>
+    </div>
  </div>
 
 <ng-template #content let-modal>
