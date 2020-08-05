@@ -48,4 +48,12 @@ export class LocationNormalization {
         const newurl=`${this.baseUrl}/toInApproval`;
         return this.http.put<ResponseMessage>(newurl,l);
     }
+    approvereject(l:LocationStaging,a:string):Observable<ResponseMessage>{
+        const newurl=`${this.baseUrl}/approveorreject/${a}`;
+        return this.http.put<ResponseMessage>(newurl,l);
+    }
+    updateDetails(l:LocationStaging):Observable<ResponseMessage>{
+        const newurl=`${this.baseUrl}/updateNormalized`;
+        return this.http.put<ResponseMessage>(newurl,l);
+    }
 }

@@ -20,6 +20,10 @@ message:string;
 closeResult : string;
 selectApproval:LocationStaging[];
 checked:boolean;
+editLocation:string;
+editNormalized:string;
+loc:LocationStaging;
+
 
   constructor(private locationNormalization:LocationNormalization,private modalService : NgbModal,private fb : FormBuilder) { }
 
@@ -45,12 +49,34 @@ checked:boolean;
       return `with: ${reason}`;
     }
   }
+  openDetails(targetModal, stagin: LocationStaging) {
+    this.modalService.open(targetModal, {
+     centered: true,
+     backdrop: 'static',
+     size: 'lg'
+   });
+   this.editLocation=stagin.locationName;
+   this.editNormalized=stagin.normalizedLocation;
+  //  this.editStaging.locationName =staging.locationName;
+  //  this.editStaging.normalizedLocation =staging.normalizedLocation;
+  //  this.editStaging.id=staging.id
+ }
   onSubmit(f: LocationStaging) {
     this.locationNormalization.saveDetails(f).subscribe(resp=>{
       alert(resp.message);
       this.ngOnInit();   
     })
     this.modalService.dismissAll(); //dismiss the modal
+  }
+  onEdit(f:LocationStaging){
+    console.log(f);
+    this.loc={id:0,status:null,modifiedDate:null, locationName: this.editLocation,normalizedLocation: this.editNormalized};
+    this.locationNormalization.updateDetails(this.loc).subscribe(resp=>{
+      alert(resp.message);
+      this.ngOnInit();   
+    })
+    this.modalService.dismissAll(); //dismiss the modal
+
   }
   onSelect() {
     this.locationNormalization.toInApproval(this.selectApproval).subscribe(resp=>{

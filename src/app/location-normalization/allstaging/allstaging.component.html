@@ -1,18 +1,17 @@
 <html>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
     <body>
     <div class="container">
-        <div class="border">
-            <button class="btn btn-md btn-outline-primary" (click)="open(content)">
-                <i class="fa fa-plus"></i>Create New</button>
-                <div>
-                    <div class="tabcontent">
-                        <label ><input type="file" (change)="selectFile($event)"></label>
-                        <br>
-                    <button class="btnsend" [disabled]="!selectedFiles" (click)="upload()"><i>Bulk Upload</i></button>
-                    </div>
-                </div>
+        <div >
+            <button class="btn btn-md btn-outline-primary" (click)="open(content)"><i class="fa fa-plus"></i>Create New</button>
+            <div class="panel panel-primary">
+                <label class="btn btn-default"><input type="file" (change)="selectFile($event)"></label>
+                <br>
+                <button class="btnsend" [disabled]="!selectedFiles" (click)="upload()"><i class="fa fa-upload">Bulk Upload</i></button>
+            </div>
         </div>
-    <table >
+    <table class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>All
@@ -37,14 +36,14 @@
                  <td>{{staging.normalizedLocation}}</td>
                  <td>{{staging.status}}</td>
                  <td>
-                   <button >View</button><br>
-                   <button >Edit</button>
+                    <button class="btn btn-sm btn-info" (click) = "openDetails(contentDetails, staging)">
+                        <i class="fa fa-edit"></i>Edit</button>
                  </td>
                  <td>  </td>
             </tr>
         </tbody>
     </table>
-    <div class="border text-center">
+    <div class="text-center">
         <button data-dismiss="modal" class="btn btn-info" (click)="onSelect()">Submit</button>
     </div>
 </div>
@@ -77,6 +76,38 @@
         <div class="modal-footer">
             <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
         </div>
-</ng-template>    
+</ng-template>  
+
+<ng-template #contentDetails let-modal>
+    <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Details</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form #f="ngForm" (ngSubmit)="onEdit(f.value)" novalidate>
+            <div class="form-group">
+                <label for="locationName">Location Name</label>
+                <div class="input-group">
+                    <input id="locationName" name = "locationName" class="form-control" [(ngModel)]="editLocation" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="normalized">Normalized Location</label>
+                <div class="input-group">
+                  <input id="normalized" name = "normalized"class="form-control" [(ngModel)]="editNormalized" >
+                </div>
+            </div>
+            <div class="border text-center">
+                    <button data-dismiss="modal" class="btn btn-info">Submit</button>
+            </div>
+ 
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+        </div>
+      </ng-template>
 </body>
     </html>
