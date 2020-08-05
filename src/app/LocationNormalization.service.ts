@@ -44,4 +44,8 @@ export class LocationNormalization {
         const newurl=`${this.baseUrl}/savedetails`;
         return this.http.post<ResponseMessage>(newurl,l,this.httpOptions);
     }
+    toInApproval(l:LocationStaging[]):Observable<ResponseMessage>{
+        const newurl=`${this.baseUrl}/toInApproval`;
+        return this.http.put<ResponseMessage>(newurl,l);
+    }
 }

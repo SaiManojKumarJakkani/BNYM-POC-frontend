@@ -15,6 +15,10 @@
     <table >
         <thead>
             <tr>
+                <th>All
+                <input type="checkbox" id="id" name="id" class="form-control" (click)="addApprovalAll()" [(checked)]="checked">
+
+                </th>
                 <th>Location Name</th>
                 <th>Normalization Location Name</th>
                 <th>Status</th>
@@ -24,7 +28,12 @@
         </thead>
         <tbody>
             <tr *ngFor="let staging of allstaging">
-                 <td>{{staging.locationName}}</td>
+                <td >
+                <div *ngIf="staging.status=='IN_DRAFT'; else elseBlock"><input type="checkbox" id="id" name="id" value="{{staging.id}}" class="form-control" (click)="addApproval(staging)" [(checked)]="checked">
+                </div>
+                <ng-template #elseBlock> </ng-template>
+                </td>
+                <td>{{staging.locationName}}</td>
                  <td>{{staging.normalizedLocation}}</td>
                  <td>{{staging.status}}</td>
                  <td>
@@ -35,8 +44,11 @@
             </tr>
         </tbody>
     </table>
+    <div class="border text-center">
+        <button data-dismiss="modal" class="btn btn-info" (click)="onSelect()">Submit</button>
     </div>
-    <ng-template #content let-modal>
+</div>
+<ng-template #content let-modal>
         <div class="modal-header">
             <h4 class="modal-title" id="modal-basic-title">Create New</h4>
                 <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -65,6 +77,6 @@
         <div class="modal-footer">
             <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
         </div>
-     </ng-template>    
+</ng-template>    
 </body>
     </html>

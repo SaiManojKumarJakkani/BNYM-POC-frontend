@@ -4,6 +4,7 @@ import { LocationNormalization } from 'src/app/LocationNormalization.service';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { NgForm, FormGroup, FormBuilder, FormControl} from '@angular/forms';
 import { HttpResponse, HttpHeaderResponse } from '@angular/common/http';
+import { element } from 'protractor';
 
 
 @Component({
@@ -17,6 +18,8 @@ selectedFiles: FileList;
 currentFileUpload: File;
 message:string;
 closeResult : string;
+selectApproval:LocationStaging[];
+checked:boolean;
 
   constructor(private locationNormalization:LocationNormalization,private modalService : NgbModal,private fb : FormBuilder) { }
 
@@ -24,6 +27,7 @@ closeResult : string;
     this.locationNormalization.getAllStaging().subscribe(resp=>{
       this.allstaging=resp;
     })
+    this.checked=null;
   }
   open(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
@@ -43,11 +47,39 @@ closeResult : string;
   }
   onSubmit(f: LocationStaging) {
     this.locationNormalization.saveDetails(f).subscribe(resp=>{
-      alert(resp.message)
-      this.ngOnInit();
-      
+      alert(resp.message);
+      this.ngOnInit();   
     })
     this.modalService.dismissAll(); //dismiss the modal
+  }
+  onSelect() {
+    this.locationNormalization.toInApproval(this.selectApproval).subscribe(resp=>{
+      alert(resp.message);
+      this.ngOnInit();
+    })
+  }
+  addApproval(id:LocationStaging){
+    if(!this.selectApproval) 
+    this.selectApproval=[id]
+    else{
+    if(this.selectApproval.find(element => element == id))
+    { console.log("Existed",this.selectApproval.findIndex(element => element == id));
+      this.selectApproval.splice(this.selectApproval.findIndex(element => element == id),1) 
+    }
+    else      
+    this.selectApproval.push(id) ;    
+    }
+  }
+  addApprovalAll(){
+    if(this.checked==true){
+    this.checked=false;
+    this.selectApproval=null;
+    }
+    else{
+    this.checked=true;
+    this.selectApproval=this.allstaging.filter(element=> element.status=="IN_DRAFT");
+    }
+
   }
 
   selectFile(event) {
