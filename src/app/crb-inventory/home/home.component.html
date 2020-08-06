@@ -3,16 +3,16 @@
     <div class="container">
       <div class="row">
         <div class="col-sm">
-          <a routerLink="allstaging"
-             role="button"
-             class="btn btn-outline-primary btn-lg btn-block text-center">
+          <a id="staging" routerLink="allstaging"
+             role="button" (click) = "checkStaging()"
+             class="btn btn-outline-primary btn-lg btn-block text-center active">
             <span><i class="fa fa-users"></i></span>
             <br>CRB Inventory Details
           </a>
         </div>
         <div class="col-sm">
-          <a routerLink="allapproval"
-             role="button"
+          <a id="approval" routerLink="allapproval"
+             role="button" (click) = "checkApproval()"
              class="btn btn-outline-primary btn-lg btn-block text-center">
             <span><i class="fa fa-clipboard"></i></span>
             <br>My Approvals

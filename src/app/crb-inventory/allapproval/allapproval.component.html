@@ -1,18 +1,20 @@
 <!-- // it will contain a record which will be Approved or reject -->
 <div class="container">
-    
+
+    <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>Source</th>
                 <th>Date Of Item</th>
-                <th>Ecoo Company Name</th>
+                <!-- <th>Ecoo Company Name</th> -->
                 <th>ISIN</th>
                 <th>CUSPIN</th>
                 <th>SEDOL</th>
                 <th>Private Company Name</th>
                 <th>Non Permisible Expected Date</th>
                 <th>Status</th>
+                <th>Modified Date</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -20,25 +22,27 @@
             <tr *ngFor="let approval of allapproval">
                  <td>{{approval.source}}</td>
                  <td>{{approval.dateOfItem}}</td>
-                 <td>{{approval.ecooCompanyName}}</td>
+                 <!-- <td>{{approval.ecooCompanyName}}</td> -->
                  <td>{{approval.isin}}</td>
                  <td>{{approval.cuspin}}</td>
                  <td>{{approval.sedol}}</td>
                  <td>{{approval.privateComapanyName}}</td>
                  <td>{{approval.nonPermisibleExpectedDate}}</td>
                  <td>{{approval.status}}</td>
+                 <td>{{approval.date}}</td>
                  <td class="controlButton">
-                    <button class="btn btn-sm btn-success" >
+                    <button class="btn btn-sm btn-success" (click)="approveOrReject(approval,'approved')" >
                         <i class="fa fa-thumbs-up"></i>Approve</button>
-                      <button class="btn btn-sm btn-danger" (click) = "openReject(content)" >
+                      <button class="btn btn-sm btn-danger" (click) = "approveOrReject(approval,'reject')" >
                         <i class="fa fa-thumbs-down"></i>Reject</button>
                  </td>
             </tr>
         </tbody>
     </table>
 </div>
+</div>
 
-<ng-template #content let-modal>
+<!-- <ng-template #content let-modal>
     <div class="modal-header">
         <h4 class="modal-title" id="modal-basic-title">Declare Reason for your Rejection!</h4>
             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -57,5 +61,5 @@
             </div>
         </form>
     </div>
-</ng-template>
+</ng-template> -->
 

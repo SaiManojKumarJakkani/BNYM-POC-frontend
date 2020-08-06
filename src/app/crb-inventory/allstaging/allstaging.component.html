@@ -1,19 +1,20 @@
 <html>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+  </head>
 <body ng-app="">
 <div class="container">
-    <div class="border">
-        <button class="btn btn-md btn-outline-primary" (click)="open(content)">
-            <i class="fa fa-plus"></i>Create New</button>
-            <div>
-                <div class="tabcontent">
-                    <label><input type="file" id = "file" (change)="selectFile($event)"><span class="file-custom"></span></label>
-                    <br>
-                <button class="btnsend" [disabled]="!selectedFiles" (click)="upload()"><i class="fa fa-upload">Bulk Upload</i></button>
-                </div>
-            </div>
+    <div class="border d-flex justify-content-between">
+      <button class="btn btn-md btn-outline-primary my-3" (click)="open(content)">
+        <i class="fa fa-plus"></i>Create New</button><br>
+      <div>  
+        <label><input type="file" id = "file" (change)="selectFile($event)"><span class="file-custom"></span></label>
+        <br>
+        <button class="btnsend" [disabled]="!selectedFiles" (click)="upload()"><i class="fa fa-upload">Bulk Upload</i></button>
+      </div>
     </div>
-    <table class="table table-bordered table-striped">
+    <div class="table-responsive">
+    <table class="table table-bordered table-striped cusTable">
         <thead>
             <tr>
                 <th>All
@@ -21,14 +22,14 @@
                 </th>
                 <th>Source</th>
                 <th>Date Of Item</th>
-                <th>Ecoo Company Name</th>
+                <!-- <th>Ecoo Company Name</th> -->
                 <th>ISIN</th>
                 <th>CUSPIN</th>
                 <th>SEDOL</th>
                 <th>Private Company Name</th>
                 <th>Non Permisible Expected Date</th>
                 <th>Status</th>
-                <th>Date of Modified</th>
+                <th>Modified Date</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -37,11 +38,13 @@
                     <td >
                       <div *ngIf="staging.status=='InDraft'; else elseBlock"><input type="checkbox" id="stagingId" name="stagingId" value="{{staging.stagingId}}" class="form-control" (click)="addApproval(staging)" [(checked)]="checked">
                       </div>
-                      <ng-template #elseBlock> </ng-template>
+                      <ng-template #elseBlock>
+                        <i class="fa fa-check"></i>
+                      </ng-template>
                     </td>
                     <td>{{staging.source}}</td>
                     <td>{{staging.dateOfItem}}</td>
-                    <td>{{staging.ecooCompanyName}}</td>
+                    <!-- <td>{{staging.ecooCompanyName}}</td> -->
                     <td>{{staging.isin}}</td>
                     <td>{{staging.cuspin}}</td>
                     <td>{{staging.sedol}}</td>
@@ -52,12 +55,19 @@
                     <td class="controlButton">
                         <button class="btn btn-sm btn-info" (click) = "openDetails(contentDetails, staging)">
                           <i class="fa fa-eye"></i>View</button>
-                        <button class="btn btn-sm btn-warning" >
-                          <i class="fa fa-edit"></i>Edit</button>
+                        <div *ngIf="staging.status!='approved'; else disabledBlock">
+                          <button class="btn btn-sm btn-warning" (click) = "openEdit(contentEdit, staging)">
+                            <i class="fa fa-edit"></i>Edit</button>
+                        </div>
+                        <ng-template #disabledBlock>
+                          <button class="btn btn-sm btn-warning" (click) = "openEdit(contentEdit, staging)" disabled>
+                            <i class="fa fa-edit"></i>Edit</button>
+                        </ng-template>
                     </td>
                 </tr>
             </tbody>
     </table>
+  </div>
     <div class="border text-center">
       <button data-dismiss="modal" class="btn btn-info" (click)="onSelect()">Submit</button>
     </div>
@@ -84,12 +94,12 @@
                       <input id="dateOfItem" name="dateOfItem" class="form-control" ngModel>
                     </div>
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                     <label for="ecooCompanyName">Ecoo Company Name</label>
                     <div class="input-group">
                       <input id="ecooCompanyName" name= "ecooCompanyName" class="form-control" ngModel>
                     </div>
-            </div>
+            </div> -->
             <div class="form-group">
                     <label for="isin">ISIN</label>
                     <div class="input-group">
@@ -194,7 +204,7 @@
                 </div>
               </ng-template>
 
-              <!-- <ng-template #contentEdit let-modal>
+              <ng-template #contentEdit let-modal>
                 <div class="modal-header">
                       <h4 class="modal-title" id="modal-basic-title2">Update Your Record</h4>
                       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -202,59 +212,59 @@
                       </button>
                     </div>
                     <div class="modal-body">
-                      <form [formGroup]="editForm" novalidate>
+                      <form #f="ngForm" (ngSubmit)="onUpdate(f.value)" novalidate>
                         <div class="form-group">
-                            <label for="stagingId">StagingId</label>
-                            <div class="input-group">
-                              <input formControlName = "stagingId" class="form-control" >
-                            </div>
+                          <label for="source">Staging Id</label>
+                          <div class="input-group">
+                            <input id="stgId" name = "stagingId" class="form-control" readonly [(ngModel)] = "editStageId">
+                          </div>
                         </div>
                         <div class="form-group">
                           <label for="source">Source</label>
                           <div class="input-group">
-                            <input formControlName = "source" class="form-control" >
+                            <input id="s" name = "source" class="form-control" [(ngModel)]="editSource">
                           </div>
                         </div>
                         <div class="form-group">
                             <label for="dateOfItem">Date of Item</label>
                             <div class="input-group">
-                              <input formControlName="dateOfItem" class="form-control" >
+                              <input id="date" name="dateOfItem" class="form-control" [(ngModel)]="editDateOfItem" >
                             </div>
                           </div>
-                          <div class="form-group">
+                          <!-- <div class="form-group">
                             <label for="ecooCompanyName">Ecoo Company Name</label>
                             <div class="input-group">
-                              <input formControlName= "ecooCompanyName" class="form-control" >
+                              <input id="ecoo" name= "ecooCompanyName" class="form-control" [(ngModel)]="editEcooCompanyName" >
                             </div>
-                          </div>
+                          </div> -->
                           <div class="form-group">
                             <label for="isin">ISIN</label>
                             <div class="input-group">
-                              <input formControlName= "isin" class="form-control" >
+                              <input id="is" name= "isin" class="form-control" [(ngModel)]="editisin" >
                             </div>
                           </div>
                           <div class="form-group">
                             <label for="cuspin">CUSPIN</label>
                             <div class="input-group">
-                              <input formControlName= "cuspin" class="form-control" >
+                              <input id="c" name= "cuspin" class="form-control" [(ngModel)]="editCuspin" >
                             </div>
                           </div>
                           <div class="form-group">
                             <label for="sedol">SEDOL</label>
                             <div class="input-group">
-                              <input formControlName= "sedol"  class="form-control" >
+                              <input id="sd" name= "sedol" class="form-control" [(ngModel)]="editsedol">
                             </div>
                           </div>
                           <div class="form-group">
                             <label for="privateComapanyName">Private Company Name</label>
                             <div class="input-group">
-                              <input formControlName= "privateComapanyName" class="form-control">
+                              <input id= "private" name="privateComapanyName" class="form-control" [(ngModel)]="editPrivateComapanyName">
                             </div>
                           </div>
                           <div class="form-group">
                             <label for="nonPermisibleExpectedDate">Non Permisible Expected Date</label>
                             <div class="input-group">
-                              <input formControlName= "nonPermisibleExpectedDate" class="form-control">
+                              <input id = "non" name= "nonPermisibleExpectedDate" class="form-control" [(ngModel)]="editNonPermisibleExpectedDate">
                             </div>
                           </div>
                           <div class="border text-center">
@@ -266,7 +276,7 @@
                       <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
                     </div>
                   </ng-template>             
-  -->
+ 
 
 </body>
 </html>

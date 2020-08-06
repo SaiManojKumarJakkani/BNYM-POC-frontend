@@ -4,6 +4,7 @@ import { CrbInventoryService } from 'src/app/services/crb-inventory.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { createSecretKey } from 'crypto';
 
 @Component({
   selector: 'app-allapproval',
@@ -48,5 +49,24 @@ export class AllapprovalComponent implements OnInit {
       });
     this.modalService.dismissAll(); //dismiss the modal
   }
+
+  approveOrReject(crb : CRBInventoryStaging, a : string){
+    if(confirm("Are you sure you want to "+a+"?"))
+    this.crbService.approveOrReject(crb,a).subscribe(resp=>{
+      if(resp){
+      var response = JSON.parse(JSON.stringify(resp));
+      if(response.status == "approved"){
+        alert("Approved Successfully !!!");
+      }else{
+        alert("Rejected!!!");
+      } 
+      this.ngOnInit();
+      }
+    })
+
+
+
+  }
+
 
 }

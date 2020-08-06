@@ -40,13 +40,21 @@ export class CrbInventoryService {
     responseType: 'json'
     });
     return this.httpclient.request(req);
-    //const newurl=`${this.baseUrl}/uploaddetails`;
-    //return this.http.post(newurl,file).pipe(map((res:any)=>res.json()))
 }
 
 inApproval(crb : CRBInventoryStaging[]) : Observable<ResponseMessage>{
   const newUrl = `${this.baseUrl}/crb/toInApproval`;
   return this.httpclient.put<ResponseMessage>(newUrl, crb);
 } 
+
+updateDetails(crb : CRBInventoryStaging) : Observable<ResponseMessage>{
+  const newUrl = `${this.baseUrl}/crb/update`;
+  return this.httpclient.put<ResponseMessage>(newUrl, crb);
+}
+
+approveOrReject(crb : CRBInventoryStaging, a:string) : Observable<ResponseMessage>{
+  const newUrl=`${this.baseUrl}/crb/approvereject/${crb.stagingId}/${a}`;
+  return this.httpclient.put<ResponseMessage>(newUrl, this.httpOptions);
+}
 
 }

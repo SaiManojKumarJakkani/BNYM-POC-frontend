@@ -5,6 +5,7 @@ import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { NgForm, FormGroup, FormBuilder, FormControl} from '@angular/forms';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { checkServerIdentity } from 'tls';
 
 @Component({
   selector: 'app-allstaging',
@@ -22,7 +23,15 @@ export class AllstagingComponent implements OnInit {
   message : string;
   selectApproval : CRBInventoryStaging[];
   checked : boolean;
-
+  editSource: string;
+  editDateOfItem: string;
+  editEcooCompanyName: string;
+  editisin: string;
+ editCuspin: string;
+editsedol: string;
+editPrivateComapanyName: string;
+editNonPermisibleExpectedDate: string;
+editStageId : number;
 
   constructor( private crbService : CrbInventoryService,
      private modalService : NgbModal,
@@ -49,6 +58,7 @@ export class AllstagingComponent implements OnInit {
     //  });
   }
 
+
   open(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -71,10 +81,15 @@ export class AllstagingComponent implements OnInit {
     const url = 'http://localhost:8080/crb/add';
     this.http.post(url, f.value)
       .subscribe((result) => {
+        var message = "Record entered Successfuly!";
+        alert(message);
         this.ngOnInit(); //reload the table
       });
     this.modalService.dismissAll(); //dismiss the modal
   }
+
+ 
+  
 
   //details/view
   openDetails(targetModal, staging: CRBInventoryStaging) {
@@ -116,7 +131,9 @@ upload() {
 //select checked
 onSelect(){
   this.crbService.inApproval(this.selectApproval).subscribe(response => {
-    alert(response.message);
+    var message = "your record successfuly submited and in Inaproval state";
+    alert(message);
+    //alert(response.message);
     this.ngOnInit();
   })
 }
@@ -145,34 +162,37 @@ addApprovalAll(){
   }
 }
 
-//reject onSubmit
-onSubmit2(f: NgForm) {
-  const url = 'http://localhost:8080/crb/stagingId';
-  this.http.post(url, f.value)
-    .subscribe((result) => {
-      this.ngOnInit(); //reload the table
-    });
-  this.modalService.dismissAll(); //dismiss the modal
-}
+ openEdit(targetModal, staging: CRBInventoryStaging) {
+  this.modalService.open(targetModal, {
+   centered: true,
+   backdrop: 'static',
+   size: 'lg'
+ });
+  this.editStageId = staging.stagingId;
+  this.editSource=staging.source;
+  this.editDateOfItem=staging.dateOfItem;
+  this.editEcooCompanyName=staging.ecooCompanyName;
+  this.editisin=staging.isin;
+  this.editCuspin=staging.cuspin;
+  this.editsedol=staging.sedol;
+  this.editPrivateComapanyName=staging.privateComapanyName;
+  this.editNonPermisibleExpectedDate=staging.nonPermisibleExpectedDate;
+    
+  }
+  onUpdate(f: CRBInventoryStaging) {
+    console.log(f);
+    this.staging = {stagingId: this.editStageId,status:null, date:null, source: this.editSource,
+                   dateOfItem: this.editDateOfItem,
+                    ecooCompanyName: this.editEcooCompanyName,
+                    isin: this.editisin, cuspin: this.editCuspin,
+                    sedol: this.editsedol, privateComapanyName: this.editPrivateComapanyName,
+                    nonPermisibleExpectedDate: this.editNonPermisibleExpectedDate};
+    this.crbService.updateDetails(this.staging).subscribe(response =>{
+      var message= "Your Data has been updated Successfully";
+      alert(message);
+      this.ngOnInit();
+    })
+    this.modalService.dismissAll();
 
-//  openEdit(targetModal, staging: CRBInventoryStaging) {
-//   this.modalService.open(targetModal, {
-//    centered: true,
-//    backdrop: 'static',
-//    size: 'lg'
-//  });
-//  this.editForm.patchValue( {
-//   id: staging.stagingId, 
-//   source: staging.source,
-//   dateOfItem: staging.dateOfItem,
-//   ecooCompanyName: staging.ecooCompanyName,
-//   isin: staging.isin,
-//   cuspin: staging.cuspin,
-//   sedol: staging.sedol,
-//   privateComapanyName: staging.privateComapanyName,
-//   nonPermisibleExpectedDate: staging.nonPermisibleExpectedDate,
-// });
-
-// }
-
+  }
 }
