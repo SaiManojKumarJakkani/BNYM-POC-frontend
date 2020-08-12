@@ -5,4 +5,5 @@ export class LocationStaging
     normalizedLocation:string;
     status:string;
     modifiedDate:Date;
+    rejectionNotes:string;
 }

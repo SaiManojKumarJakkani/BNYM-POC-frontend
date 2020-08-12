@@ -3,7 +3,8 @@
 
     <body>
     <div class="container">
-        <div>
+    <div>
+    <div *ngIf="allapproval[0]!=null">
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -19,13 +20,42 @@
                  <td class="controlButton">
                     <button class="btn btn-sm btn-success" (click)="approvereject(approval,'approve')">
                         <i class="fa fa-thumbs-up"></i>Approve</button>
-                      <button class="btn btn-sm btn-danger" (click) = "approvereject(approval,'reject')" >
+                      <button class="btn btn-sm btn-danger"  (click) = "openDetails(contentDetails, approval)">
                         <i class="fa fa-thumbs-down"></i>Reject</button>
                  </td>
             </tr>
         </tbody>
     </table>
     </div>
-    </div> 
+    </div>
+    <div *ngIf="allapproval[0]==null">
+        <div ><br><br>
+            <h4 style="text-shadow: black;text-align: center;">No Pending Approvals!</h4>
+            <h5 style="color:grey;text-align: center;">You can submit any IN_DRAFT data for Approval</h5>
+        </div>
+    </div>
+    </div>
+<ng-template #contentDetails let-modal>
+        <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">Reason For Rejection...</h4>
+            </div>
+            <div class="modal-body">
+              <form #f="ngForm" (ngSubmit)="onReject(f.value)" novalidate>
+                <div class="form-group">
+                    <label for="rejectionNotes"></label>
+                    <div class="input-group">
+                        <input id="rejectionNotes" name = "rejectionNotes" class="form-control" [(ngModel)]="rejectNotes" >
+                    </div>
+                </div>
+                <div class="text-center">
+                        <button data-dismiss="modal" class="btn btn-info">Reject</button>
+                </div>
+     
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+            </div>
+</ng-template> 
 </body>
     </html>
