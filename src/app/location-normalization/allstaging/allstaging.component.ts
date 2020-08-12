@@ -22,6 +22,7 @@ selectApproval:LocationStaging[];
 checked:boolean;
 editLocation:string;
 editNormalized:string;
+editRejection:string;
 loc:LocationStaging;
 
 
@@ -57,6 +58,7 @@ loc:LocationStaging;
    });
    this.editLocation=stagin.locationName;
    this.editNormalized=stagin.normalizedLocation;
+   this.editRejection=stagin.rejectionNotes;
   //  this.editStaging.locationName =staging.locationName;
   //  this.editStaging.normalizedLocation =staging.normalizedLocation;
   //  this.editStaging.id=staging.id
@@ -70,15 +72,15 @@ loc:LocationStaging;
   }
   onEdit(f:LocationStaging){
     console.log(f);
-    this.loc={id:0,status:null,modifiedDate:null, locationName: this.editLocation,normalizedLocation: this.editNormalized};
+    this.loc={id:0,status:null,modifiedDate:null, locationName: this.editLocation,normalizedLocation: this.editNormalized, rejectionNotes:this.editRejection};
     this.locationNormalization.updateDetails(this.loc).subscribe(resp=>{
       alert(resp.message);
       this.ngOnInit();   
     })
     this.modalService.dismissAll(); //dismiss the modal
-
   }
   onSelect() {
+    if(confirm("Are you sure, you want to submit the records for Approval?"))
     this.locationNormalization.toInApproval(this.selectApproval).subscribe(resp=>{
       alert(resp.message);
       this.ngOnInit();
