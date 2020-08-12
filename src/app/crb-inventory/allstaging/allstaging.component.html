@@ -30,6 +30,7 @@
                 <th>Non Permisible Expected Date</th>
                 <th>Status</th>
                 <th>Modified Date</th>
+                <th>Modified By</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -52,6 +53,7 @@
                     <td>{{staging.nonPermisibleExpectedDate}}</td>
                     <td>{{staging.status}}</td>
                     <td>{{staging.date}}</td>
+                    <td> {{modifiedBy}}</td>
                     <td class="controlButton">
                         <button class="btn btn-sm btn-info" (click) = "openDetails(contentDetails, staging)">
                           <i class="fa fa-eye"></i>View</button>
@@ -85,13 +87,13 @@
             <div class="form-group">
                 <label for="source">Source</label>
                   <div class="input-group">
-                    <input id="source" name = "source" class="form-control" ngModel>
+                    <input id="source" name = "source" class="form-control" ngModel required>
                   </div>
             </div>
             <div class="form-group">
                     <label for="dateOfItem">Date of Item</label>
                     <div class="input-group">
-                      <input id="dateOfItem" name="dateOfItem" class="form-control" ngModel>
+                      <input type= "date" id="dateOfItem" name="dateOfItem" class="form-control" ngModel required>
                     </div>
             </div>
             <!-- <div class="form-group">
@@ -103,31 +105,31 @@
             <div class="form-group">
                     <label for="isin">ISIN</label>
                     <div class="input-group">
-                      <input id="isin" name= "isin" class="form-control" ngModel>
+                      <input id="isin" name= "isin" class="form-control" ngModel required>
                     </div>
             </div>
             <div class="form-group">
                     <label for="cuspin">CUSPIN</label>
                     <div class="input-group">
-                      <input id="cuspin" name= "cuspin" class="form-control" ngModel>
+                      <input id="cuspin" name= "cuspin" class="form-control" ngModel required>
                     </div>
             </div>
             <div class="form-group">
                     <label for="sedol">SEDOL</label>
                     <div class="input-group">
-                      <input id="sedol" name= "sedol"  class="form-control" ngModel>
+                      <input id="sedol" name= "sedol"  class="form-control" ngModel required>
                     </div>
             </div>
             <div class="form-group">
                     <label for="privateComapanyName">Private Company Name</label>
                     <div class="input-group">
-                      <input id="privateComapanyName" name= "privateComapanyName" class="form-control" ngModel>
+                      <input id="privateComapanyName" name= "privateComapanyName" class="form-control" ngModel required>
                     </div>
             </div>
             <div class="form-group">
                     <label for="nonPermisibleExpectedDate">Non Permisible Expected Date</label>
                     <div class="input-group">
-                      <input id="nonPermisibleExpectedDate" name= "nonPermisibleExpectedDate" class="form-control" ngModel>
+                      <input type="date" id="nonPermisibleExpectedDate" name= "nonPermisibleExpectedDate" class="form-control" ngModel required>
                     </div>
             </div>
             <div class="border text-center">

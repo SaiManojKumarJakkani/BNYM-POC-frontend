@@ -32,6 +32,7 @@ editsedol: string;
 editPrivateComapanyName: string;
 editNonPermisibleExpectedDate: string;
 editStageId : number;
+modifiedBy : string = "System";
 
   constructor( private crbService : CrbInventoryService,
      private modalService : NgbModal,
@@ -44,18 +45,6 @@ editStageId : number;
       this.allstaging = response;
     })
     this.checked = null;
-    // this.editForm =  this.fb.group({
-    //   satgingId: [''],
-    //   source: [''],
-    //   dateOfItem: [''],
-    //   ecooCompanyName: [''],
-    //   isin: [''],
-    //   cuspin: [''],
-    //   sedol: [''],
-    //   privateComapanyName: [''],
-    //   nonPermisibleExpectedDate: ['']
-      
-    //  });
   }
 
 

@@ -11,6 +11,5 @@ export class CRBInventoryStaging{
     nonPermisibleExpectedDate : string;
     status : string;
     date : Date;
-
-
+   
 }
