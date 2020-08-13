@@ -4,6 +4,7 @@ import { CRBInventoryStaging } from '../modal/CRBInventoryStaging';
 import { Observable } from 'rxjs';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { ResponseMessage } from '../ResponseMessage';
+import { createBrotliCompress } from 'zlib';
 
 @Injectable({
   providedIn: 'root'
@@ -54,7 +55,7 @@ updateDetails(crb : CRBInventoryStaging) : Observable<ResponseMessage>{
 
 approveOrReject(crb : CRBInventoryStaging, a:string) : Observable<ResponseMessage>{
   const newUrl=`${this.baseUrl}/crb/approvereject/${crb.stagingId}/${a}`;
-  return this.httpclient.put<ResponseMessage>(newUrl, this.httpOptions);
+  return this.httpclient.put<ResponseMessage>(newUrl, crb);
 }
 
 }

@@ -8,6 +8,8 @@ import { AppComponent } from './app.component';
 import { LocationNormalizationModule } from './location-normalization/location-normalization.module';
 import { CrbInventoryModule } from './crb-inventory/crb-inventory.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+//import { JwPaginationModule } from 'jw-angular-pagination';
+ import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     LocationNormalizationModule,
     CrbInventoryModule,
     NgbModule,
-    ReactiveFormsModule 
+    ReactiveFormsModule,
+    //JwPaginationModule
+     NgxPaginationModule
   ],
   providers: [],
   bootstrap: [AppComponent]

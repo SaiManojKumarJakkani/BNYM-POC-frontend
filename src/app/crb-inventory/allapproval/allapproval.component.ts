@@ -14,7 +14,20 @@ import { createSecretKey } from 'crypto';
 export class AllapprovalComponent implements OnInit {
 
   allapproval : CRBInventoryStaging[];
+  staging : CRBInventoryStaging;
+
   closeResult: string;
+
+  rejectSource : string;
+  rejectDateOfItem: string;
+  rejectEcooCompanyName: string;
+  rejectisin: string;
+  rejectCuspin: string;
+  rejectsedol: string;
+  rejectPrivateComapanyName: string;
+  rejectNonPermisibleExpectedDate: string;
+  rejectStageId : number;
+  rejectNotes : string;
 
   constructor(private crbService : CrbInventoryService,
     private modalService : NgbModal,
@@ -63,10 +76,43 @@ export class AllapprovalComponent implements OnInit {
       this.ngOnInit();
       }
     })
-
-
-
   }
-
+  openDetails(targetModal, staging: CRBInventoryStaging) {
+    this.modalService.open(targetModal, {
+     centered: true,
+     backdrop: 'static',
+     size: 'lg'
+   });
+   this.rejectStageId = staging.stagingId;
+   this.rejectSource=staging.source;
+   this.rejectDateOfItem=staging.dateOfItem;
+   this.rejectEcooCompanyName=staging.ecooCompanyName;
+   this.rejectisin=staging.isin;
+   this.rejectCuspin=staging.cuspin;
+   this.rejectsedol=staging.sedol;
+   this.rejectPrivateComapanyName=staging.privateComapanyName;
+   this.rejectNonPermisibleExpectedDate=staging.nonPermisibleExpectedDate;
+   this.rejectNotes=staging.rejectionNotes;
+     
+   }
+  
+  onReject(f:CRBInventoryStaging){
+    console.log(f);
+    this.staging={stagingId : this.rejectStageId, status: null, date :null, source: this.rejectSource,
+                  dateOfItem: this.rejectDateOfItem,
+                  ecooCompanyName: this.rejectEcooCompanyName,
+                  isin: this.rejectisin, cuspin: this.rejectCuspin,
+                  sedol: this.rejectsedol, privateComapanyName: this.rejectPrivateComapanyName,
+                  nonPermisibleExpectedDate: this.rejectNonPermisibleExpectedDate,
+                  rejectionNotes : this.rejectNotes};
+                  this.crbService.approveOrReject(this.staging,"reject").subscribe(resp=>{
+                if(resp){
+                  var message= "Rejected";
+                  alert(message);
+                this.ngOnInit();
+                }
+              })
+              this.modalService.dismissAll(); //dismiss the modal
+            }
 
 }

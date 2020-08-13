@@ -6,6 +6,8 @@ import { NgForm, FormGroup, FormBuilder, FormControl} from '@angular/forms';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { checkServerIdentity } from 'tls';
+import { JwPaginationModule } from 'jw-angular-pagination';
+// import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-allstaging',
@@ -16,28 +18,45 @@ export class AllstagingComponent implements OnInit {
 
   allstaging : CRBInventoryStaging[];
   staging : CRBInventoryStaging;
+
   closeResult : string;
   editForm : FormGroup;
+
   selectedFiles: FileList;
   currentFileUpload: File;
   message : string;
   selectApproval : CRBInventoryStaging[];
   checked : boolean;
+
   editSource: string;
   editDateOfItem: string;
   editEcooCompanyName: string;
   editisin: string;
- editCuspin: string;
-editsedol: string;
-editPrivateComapanyName: string;
-editNonPermisibleExpectedDate: string;
-editStageId : number;
-modifiedBy : string = "System";
+  editCuspin: string;
+  editsedol: string;
+  editPrivateComapanyName: string;
+  editNonPermisibleExpectedDate: string;
+  editStageId : number;
+  editRejection : string;
+
+  modifiedBy : string = "System";
+
+  config: any;
+  totalRecords : string;
+  page : number = 1;
 
   constructor( private crbService : CrbInventoryService,
      private modalService : NgbModal,
      private http : HttpClient,
-     private fb : FormBuilder) { }
+     private fb : FormBuilder) {
+
+      // this.config = {
+      //   itemsPerPage: 5,
+      //   currentPage: 1,
+      //   totalItems: this.allstaging
+      // };
+
+      }
 
   ngOnInit(): void {
 
@@ -45,8 +64,15 @@ modifiedBy : string = "System";
       this.allstaging = response;
     })
     this.checked = null;
+    // for(var i=0;i<this.allstaging.length;i++)
+    // console.log("check",this.allstaging[i]);
   }
 
+
+
+  // pageChanged(event){
+  //   this.config.currentPage = event;
+  // }
 
   open(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
@@ -76,9 +102,6 @@ modifiedBy : string = "System";
       });
     this.modalService.dismissAll(); //dismiss the modal
   }
-
- 
-  
 
   //details/view
   openDetails(targetModal, staging: CRBInventoryStaging) {
@@ -119,10 +142,10 @@ upload() {
 
 //select checked
 onSelect(){
+  if(confirm("Are you sure, you want to submit the records for Approval?"))
   this.crbService.inApproval(this.selectApproval).subscribe(response => {
     var message = "your record successfuly submited and in Inaproval state";
     alert(message);
-    //alert(response.message);
     this.ngOnInit();
   })
 }
@@ -175,7 +198,8 @@ addApprovalAll(){
                     ecooCompanyName: this.editEcooCompanyName,
                     isin: this.editisin, cuspin: this.editCuspin,
                     sedol: this.editsedol, privateComapanyName: this.editPrivateComapanyName,
-                    nonPermisibleExpectedDate: this.editNonPermisibleExpectedDate};
+                    nonPermisibleExpectedDate: this.editNonPermisibleExpectedDate,
+                    rejectionNotes : this.editRejection};
     this.crbService.updateDetails(this.staging).subscribe(response =>{
       var message= "Your Data has been updated Successfully";
       alert(message);

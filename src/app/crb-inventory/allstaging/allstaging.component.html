@@ -12,14 +12,18 @@
         <br>
         <button class="btnsend" [disabled]="!selectedFiles" (click)="upload()"><i class="fa fa-upload">Bulk Upload</i></button>
       </div>
+      <a href="http://localhost:8080/crb/downloadFile"><button class="btn btn-md btn-outline-primary my-3" ><i class="fa fa-upload">Download Details</i></button></a>
     </div>
     <div class="table-responsive">
     <table class="table table-bordered table-striped cusTable">
         <thead>
             <tr>
+              <th>S.No</th>
                 <th>All
                   <input type="checkbox" id="stagingId" name="stagingId" class="form-control" (click)="addApprovalAll()" [(checked)]="checked">
                 </th>
+                <th>Actions</th>
+                <th>Status</th>
                 <th>Source</th>
                 <th>Date Of Item</th>
                 <!-- <th>Ecoo Company Name</th> -->
@@ -28,21 +32,40 @@
                 <th>SEDOL</th>
                 <th>Private Company Name</th>
                 <th>Non Permisible Expected Date</th>
-                <th>Status</th>
-                <th>Modified Date</th>
+                <!-- <th>Modified Date</th> -->
                 <th>Modified By</th>
-                <th>Actions</th>
+                
+                <th>Rejection Notes</th>
             </tr>
         </thead>
             <tbody>
-                <tr *ngFor="let staging of allstaging">
-                    <td >
-                      <div *ngIf="staging.status=='InDraft'; else elseBlock"><input type="checkbox" id="stagingId" name="stagingId" value="{{staging.stagingId}}" class="form-control" (click)="addApproval(staging)" [(checked)]="checked">
+                <tr *ngFor="let staging of allstaging; let i = index">
+                  <td>{{i+1}}</td>
+                  <td >
+                    <div *ngIf="staging.status=='InDraft'; else elseBlock"><input type="checkbox" id="stagingId" name="stagingId" value="{{staging.stagingId}}" class="form-control" (click)="addApproval(staging)" [(checked)]="checked">
+                    </div>
+                    <ng-template #elseBlock>
+                      <div *ngIf = "staging.status=='approved'; else rejectBlock">
+                        <i class="fa fa-check"></i> 
                       </div>
-                      <ng-template #elseBlock>
-                        <i class="fa fa-check"></i>
+                      <ng-template #rejectBlock>
+                        <i class="fa fa-times"></i>
                       </ng-template>
+                    </ng-template>
                     </td>
+                    <td class="controlButton">
+                      <button class="btn btn-sm btn-info" (click) = "openDetails(contentDetails, staging)">
+                        <i class="fa fa-eye"></i>View</button>
+                      <div *ngIf="staging.status!='approved'; else disabledBlock">
+                        <button class="btn btn-sm btn-warning" (click) = "openEdit(contentEdit, staging)">
+                          <i class="fa fa-edit"></i>Edit</button>
+                      </div>
+                      <ng-template #disabledBlock>
+                        <button class="btn btn-sm btn-warning" (click) = "openEdit(contentEdit, staging)" disabled>
+                          <i class="fa fa-edit"></i>Edit</button>
+                      </ng-template>
+                  </td>
+                    <td>{{staging.status}}</td>
                     <td>{{staging.source}}</td>
                     <td>{{staging.dateOfItem}}</td>
                     <!-- <td>{{staging.ecooCompanyName}}</td> -->
@@ -51,26 +74,16 @@
                     <td>{{staging.sedol}}</td>
                     <td>{{staging.privateComapanyName}}</td>
                     <td>{{staging.nonPermisibleExpectedDate}}</td>
-                    <td>{{staging.status}}</td>
-                    <td>{{staging.date}}</td>
+                    <!-- <td>{{staging.date}}</td> -->
                     <td> {{modifiedBy}}</td>
-                    <td class="controlButton">
-                        <button class="btn btn-sm btn-info" (click) = "openDetails(contentDetails, staging)">
-                          <i class="fa fa-eye"></i>View</button>
-                        <div *ngIf="staging.status!='approved'; else disabledBlock">
-                          <button class="btn btn-sm btn-warning" (click) = "openEdit(contentEdit, staging)">
-                            <i class="fa fa-edit"></i>Edit</button>
-                        </div>
-                        <ng-template #disabledBlock>
-                          <button class="btn btn-sm btn-warning" (click) = "openEdit(contentEdit, staging)" disabled>
-                            <i class="fa fa-edit"></i>Edit</button>
-                        </ng-template>
-                    </td>
+                    <td>{{staging.rejectionNotes}}</td>
                 </tr>
             </tbody>
-    </table>
+          </table>
+    <!-- <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls> -->
+
   </div>
-    <div class="border text-center">
+    <div class="border text-right">
       <button data-dismiss="modal" class="btn btn-info" (click)="onSelect()">Submit</button>
     </div>
  </div>
