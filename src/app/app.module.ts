@@ -21,7 +21,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     LocationNormalizationModule,
     CrbInventoryModule,
     NgbModule,
-    ReactiveFormsModule 
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

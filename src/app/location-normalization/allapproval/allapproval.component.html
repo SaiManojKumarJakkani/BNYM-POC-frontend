@@ -3,8 +3,12 @@
 
     <body>
     <div class="container">
+    <div >
+        <h4 style="text-align: center;">{{message}}</h4>
+        <br>
+    </div>
     <div>
-    <div *ngIf="allapproval[0]!=null">
+    <div >
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -42,12 +46,7 @@
         <br>
         <br>
     </div>
-    <div *ngIf="allapproval[0]==null">
-        <div ><br><br>
-            <h4 style="text-shadow: black;text-align: center;">No Pending Approvals!</h4>
-            <h5 style="color:grey;text-align: center;">You can submit any IN_DRAFT data for Approval</h5>
-        </div>
-    </div>
+
     </div>
 <ng-template #contentDetails let-modal>
         <div class="modal-header">

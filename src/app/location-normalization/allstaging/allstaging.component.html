@@ -4,14 +4,15 @@
 </head>
     <body  ng-app="">
     <div class="container">
+        <div >
+            <h4 style="text-align: center; text-emphasis-color: red;">{{message}}</h4>
+        </div>
         <div class="d-flex justify-content-between">
             <button class="btn btn-md btn-outline-primary my-3"  (click)="open(content)"><i class="fa fa-plus"></i>Create New</button>
             <div class="panel panel-primary">
-                <label ><input type="file" (change)="selectFile($event)"><span class="file-custom"></span></label>
-                <br>
-                <button class="btn btn-md btn-outline-primary my-3" [disabled]="!selectedFiles" (click)="upload()"><i class="fa fa-upload">Bulk Upload</i></button>
+            <button class="btn btn-md btn-outline-primary my-3" (click)="openUpload(contentDetailsUpload)"><i class="fa fa-upload">Bulk Upload</i></button>
+            <a href="http://localhost:8080/location/downloadFile"><button class="btn btn-md btn-outline-primary my-3" ><i class="fa fa-download">Download Details</i></button></a>
             </div>
-            <a href="http://localhost:8080/location/downloadFile"><button class="btn btn-md btn-outline-primary my-3" ><i class="fa fa-upload">Download Details</i></button></a>
         </div>
     <div class="table-responsive">
     <div >
@@ -111,6 +112,21 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
         </div>
-      </ng-template>
+</ng-template>
+<ng-template #contentDetailsUpload let-modal>
+    <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Upload file</h4>
+        </div>
+        <div class="modal-body">
+            <div class="panel panel-primary" style="align-items: center;">
+                <label style="text-align: center;"><input type="file" (change)="selectFile($event)"><span class="file-custom"></span></label>
+                <br>
+            </div>
+        </div>
+        <div class="modal-footer">
+        <button class="btn btn-md btn-outline-primary my-3" [disabled]="!selectedFiles" (click)="upload()"><i class="fa fa-upload">Upload</i></button>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+        </div>
+</ng-template>
 </body>
     </html>
