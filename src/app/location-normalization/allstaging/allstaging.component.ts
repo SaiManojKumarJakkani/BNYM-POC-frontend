@@ -107,7 +107,6 @@ loc:LocationStaging;
     this.checked=true;
     this.selectApproval=this.allstaging.filter(element=> element.status=="IN_DRAFT");
     }
-
   }
 
   selectFile(event) {

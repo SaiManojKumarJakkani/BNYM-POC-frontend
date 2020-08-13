@@ -9,22 +9,23 @@
             <div class="panel panel-primary">
                 <label ><input type="file" (change)="selectFile($event)"><span class="file-custom"></span></label>
                 <br>
-                <button class="btnsend" [disabled]="!selectedFiles" (click)="upload()"><i class="fa fa-upload">Bulk Upload</i></button>
+                <button class="btn btn-md btn-outline-primary my-3" [disabled]="!selectedFiles" (click)="upload()"><i class="fa fa-upload">Bulk Upload</i></button>
             </div>
+            <a href="http://localhost:8080/location/downloadFile"><button class="btn btn-md btn-outline-primary my-3" ><i class="fa fa-upload">Download Details</i></button></a>
         </div>
     <div class="table-responsive">
-    <div *ngIf="allstaging[0]!=null">
+    <div >
     <table class="table table-bordered table-striped cusTable">
         <thead>
             <tr>
                 <th>All
                 <input type="checkbox" id="id" name="id" class="form-control" (click)="addApprovalAll()" [(checked)]="checked">
                 </th>
+                <th>Action</th>
+                <th>Status</th>
                 <th>Location Name</th>
                 <th>Normalization Location Name</th>
-                <th>Status</th>
-                <th>Approved/Rejected By</th>
-                <th>Action</th>
+                <th>Modified By</th>
                 <th>Rejection Notes</th>
             </tr>
         </thead>
@@ -35,33 +36,23 @@
                 </div>
                 <ng-template #elseBlock> </ng-template>
                 </td>
+                <td>
+                    <button class="btn btn-sm btn-info" (click) = "openDetails(contentDetails, staging)">
+                    <i class="fa fa-edit"></i>Edit</button>
+                 </td>
+                <td>{{staging.status}}</td>
                 <td>{{staging.locationName}}</td>
                  <td>{{staging.normalizedLocation}}</td>
-                 <td>{{staging.status}}</td>
-                 <td >
-                    <div *ngIf="staging.status=='APPROVED' || staging.status=='REJECTED'; else elseBlock">System
-                    </div>
-                    <ng-template #elseBlock> </ng-template>
-                </td>
-                 <td>
-                    <button class="btn btn-sm btn-info" (click) = "openDetails(contentDetails, staging)">
-                        <i class="fa fa-edit"></i>Edit</button>
-                 </td>
+                 <td >System</td>
                  <td>{{staging.rejectionNotes}}</td>
             </tr>
         </tbody>
     </table>
-    <div class="text-center">
+    <div style="text-align: right;">
         <button data-dismiss="modal" class="btn btn-info" (click)="onSelect()">Submit</button>
         <br>
         <br>
     </div>
-    </div>
-    <div *ngIf="allstaging[0]==null">
-        <div ><br><br>
-            <h4 style="text-shadow: black;text-align: center;">Currently No Records!</h4>
-            <h5 style="color:grey;text-align: center;">Upload a file which contains the information about Location Normalization or create a new record.</h5>
-        </div>
     </div>
     </div>
 </div>

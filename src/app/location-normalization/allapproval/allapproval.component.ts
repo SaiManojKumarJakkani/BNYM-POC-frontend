@@ -16,7 +16,9 @@ export class AllapprovalComponent implements OnInit {
   rejectNotes:string;
   rejectId:number;
   loc:LocationStaging;
-
+  selectRecord:LocationStaging[];
+  checked:boolean;
+  rejectNotesAll:string;
 
 
 
@@ -26,6 +28,7 @@ export class AllapprovalComponent implements OnInit {
     this.locationNormalization.getAllApproval().subscribe(resp=>{
       this.allapproval=resp;
     })
+    this.checked=null;
   }
   approvereject(l:LocationStaging,a:string){
     if(confirm("Are you sure you want to "+a+"?"))
@@ -58,5 +61,45 @@ export class AllapprovalComponent implements OnInit {
   })
   this.modalService.dismissAll(); //dismiss the modal
 }
-
+openDetailsAll(targetModal) {
+  this.modalService.open(targetModal, {
+   centered: true,
+   backdrop: 'static',
+   size: 'lg'
+ });
+}
+checkedAR(id:LocationStaging){
+  if(!this.selectRecord) 
+  this.selectRecord=[id]
+  else{
+  if(this.selectRecord.find(element => element == id))
+  { console.log("Existed",this.selectRecord.findIndex(element => element == id));
+    this.selectRecord.splice(this.selectRecord.findIndex(element => element == id),1) 
+  }
+  else      
+  this.selectRecord.push(id) ;    
+  }
+}
+checkedARAll(){
+  if(this.checked==true){
+  this.checked=false;
+  this.selectRecord=null;
+  }
+  else{
+  this.checked=true;
+  this.selectRecord=this.allapproval;
+  }
+}
+onSelect(s:string) {
+  if(confirm("Are you sure, you want to submit the records for Approval?")){
+    for (var i = 0; i < this.selectRecord.length; i++) {
+      this.selectRecord[i].rejectionNotes = this.rejectNotesAll;
+      }  
+    this.locationNormalization.approverejectAll(this.selectRecord,s).subscribe(resp=>{
+    alert(resp.message);
+    this.ngOnInit();
+    this.modalService.dismissAll(); //dismiss the modal
+  })
+}
+}
 }

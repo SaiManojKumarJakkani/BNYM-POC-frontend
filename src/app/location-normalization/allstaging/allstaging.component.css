@@ -12,14 +12,3 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-.btnsend {
-    background-color: white;
-      border: none;
-      color: grey;
-      font-size: 15px;
-      cursor: pointer;
-    }
-.btnsend:hover {
-      color:  #56baed;
-      font-size: 25px;
-}
