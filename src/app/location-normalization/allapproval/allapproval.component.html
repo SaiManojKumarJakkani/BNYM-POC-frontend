@@ -3,11 +3,20 @@
 
     <body>
     <div class="container">
+    <div >
+        <h4 style="text-align: center;">{{message}}</h4>
+        <br>
+    </div>
     <div>
-    <div *ngIf="allapproval[0]!=null">
+    <div >
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
+                <th>All
+                <div style="size: 5px;">
+                    <input  type="checkbox" id="id" name="id" class="form-control" (click)="checkedARAll()" [(checked)]="checked">
+                </div>
+                </th>
                 <th>Location Name</th>
                 <th>Normalization Location Name</th>
                 <th>Action</th>
@@ -15,6 +24,9 @@
         </thead>
         <tbody>
             <tr *ngFor="let approval of allapproval">
+                <td >
+                <input type="checkbox" id="id" name="id" value="{{approval.id}}" class="form-control" (click)="checkedAR(approval)" [(checked)]="checked">
+                </td>
                  <td>{{approval.locationName}}</td>
                  <td>{{approval.normalizedLocation}}</td>
                  <td class="controlButton">
@@ -28,12 +40,13 @@
     </table>
     </div>
     </div>
-    <div *ngIf="allapproval[0]==null">
-        <div ><br><br>
-            <h4 style="text-shadow: black;text-align: center;">No Pending Approvals!</h4>
-            <h5 style="color:grey;text-align: center;">You can submit any IN_DRAFT data for Approval</h5>
-        </div>
+    <div style="text-align: right;"class="controlButton">
+        <button data-dismiss="modal" class="btn btn-success" (click)="onSelect('approve')"><i class="fa fa-thumbs-up"></i>Approve All</button>
+        <button data-dismiss="modal"  class="btn btn-danger" (click)="openDetailsAll(contentDetailsAll)"><i class="fa fa-thumbs-down"></i>Reject All</button>
+        <br>
+        <br>
     </div>
+
     </div>
 <ng-template #contentDetails let-modal>
         <div class="modal-header">
@@ -56,6 +69,28 @@
             <div class="modal-footer">
               <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
             </div>
+</ng-template> 
+<ng-template #contentDetailsAll let-modal>
+    <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Reason For Rejection...</h4>
+        </div>
+        <div class="modal-body">
+          <form #f="ngForm" (ngSubmit)="onSelect('reject')" novalidate>
+            <div class="form-group">
+                <label for="rejectionNotes"></label>
+                <div class="input-group">
+                    <input id="rejectionNotes" name = "rejectionNotes" class="form-control" [(ngModel)]="rejectNotesAll" >
+                </div>
+            </div>
+            <div class="text-center">
+                    <button data-dismiss="modal" class="btn btn-info">Reject</button>
+            </div>
+ 
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+        </div>
 </ng-template> 
 </body>
     </html>

@@ -97,7 +97,7 @@ export class AllstagingComponent implements OnInit {
     this.http.post(url, f.value)
       .subscribe((result) => {
         var message = "Record entered Successfuly!";
-        alert(message);
+        alert(message); 
         this.ngOnInit(); //reload the table
       });
     this.modalService.dismissAll(); //dismiss the modal
@@ -125,6 +125,7 @@ selectFile(event) {
 }
 
 upload() {
+  this.message = null;
   if(confirm("Are you sure, you want to Upload this file ?")) {
   this.currentFileUpload = this.selectedFiles.item(0);
   this.crbService.uploadFile(this.currentFileUpload).subscribe((event) => {
@@ -132,20 +133,23 @@ upload() {
     
     if (event instanceof HttpResponse) {
       this.message = event.body.message;
-      alert(this.message);
+      //alert(this.message);
     }
     this.ngOnInit();
   });
   this.selectedFiles = undefined;
+  this.modalService.dismissAll();
 }
 }
 
 //select checked
 onSelect(){
+  this.message = null;
   if(confirm("Are you sure, you want to submit the records for Approval?"))
   this.crbService.inApproval(this.selectApproval).subscribe(response => {
-    var message = "your record successfuly submited and in Inaproval state";
-    alert(message);
+    //this.message = response.message;
+     var message = "your record successfuly submited and in Inaproval state";
+     alert(message);
     this.ngOnInit();
   })
 }
@@ -201,11 +205,22 @@ addApprovalAll(){
                     nonPermisibleExpectedDate: this.editNonPermisibleExpectedDate,
                     rejectionNotes : this.editRejection};
     this.crbService.updateDetails(this.staging).subscribe(response =>{
-      var message= "Your Data has been updated Successfully";
-      alert(message);
+      //this.message = response.message;
+       var message= "Your Data has been updated Successfully";
+       alert(message);
       this.ngOnInit();
     })
     this.modalService.dismissAll();
 
   }
+
+  openUpload(targetModal) {
+    this.message=null;
+    this.modalService.open(targetModal, {
+     centered: true,
+     backdrop: 'static',
+     size: 'lg'
+   });
+  }
+
 }

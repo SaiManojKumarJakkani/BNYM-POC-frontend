@@ -5,6 +5,7 @@ import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { NgForm, FormGroup, FormBuilder, FormControl} from '@angular/forms';
 import { HttpResponse, HttpHeaderResponse } from '@angular/common/http';
 import { element } from 'protractor';
+import  {PaginationControlsComponent}           from 'ngx-pagination';
 
 
 @Component({
@@ -26,7 +27,9 @@ editRejection:string;
 loc:LocationStaging;
 
 
-  constructor(private locationNormalization:LocationNormalization,private modalService : NgbModal,private fb : FormBuilder) { }
+  constructor(private locationNormalization:LocationNormalization,private modalService : NgbModal,private fb : FormBuilder) { 
+
+  }
 
   ngOnInit(){
     this.locationNormalization.getAllStaging().subscribe(resp=>{
@@ -35,6 +38,7 @@ loc:LocationStaging;
     this.checked=null;
   }
   open(content) {
+    this.message=null;
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -51,6 +55,7 @@ loc:LocationStaging;
     }
   }
   openDetails(targetModal, stagin: LocationStaging) {
+    this.message=null;
     this.modalService.open(targetModal, {
      centered: true,
      backdrop: 'static',
@@ -64,29 +69,34 @@ loc:LocationStaging;
   //  this.editStaging.id=staging.id
  }
   onSubmit(f: LocationStaging) {
+    this.message=null;
     this.locationNormalization.saveDetails(f).subscribe(resp=>{
-      alert(resp.message);
+      this.message=resp.message;
       this.ngOnInit();   
     })
     this.modalService.dismissAll(); //dismiss the modal
   }
   onEdit(f:LocationStaging){
+    this.message=null;
     console.log(f);
     this.loc={id:0,status:null,modifiedDate:null, locationName: this.editLocation,normalizedLocation: this.editNormalized, rejectionNotes:this.editRejection};
     this.locationNormalization.updateDetails(this.loc).subscribe(resp=>{
-      alert(resp.message);
+      this.message=resp.message;
       this.ngOnInit();   
     })
     this.modalService.dismissAll(); //dismiss the modal
   }
   onSelect() {
+    this.message=null;
     if(confirm("Are you sure, you want to submit the records for Approval?"))
     this.locationNormalization.toInApproval(this.selectApproval).subscribe(resp=>{
-      alert(resp.message);
+      this.message=resp.message;
       this.ngOnInit();
     })
   }
   addApproval(id:LocationStaging){
+
+    this.message=null;
     if(!this.selectApproval) 
     this.selectApproval=[id]
     else{
@@ -99,6 +109,7 @@ loc:LocationStaging;
     }
   }
   addApprovalAll(){
+    this.message=null;
     if(this.checked==true){
     this.checked=false;
     this.selectApproval=null;
@@ -107,23 +118,32 @@ loc:LocationStaging;
     this.checked=true;
     this.selectApproval=this.allstaging.filter(element=> element.status=="IN_DRAFT");
     }
-
   }
 
   selectFile(event) {
     this.selectedFiles = event.target.files;
   }
   upload() {
+    this.message=null;
     if(confirm("Are you sure, you want to Upload this file ?")) {
     this.currentFileUpload = this.selectedFiles.item(0);
     this.locationNormalization.uploadFile(this.currentFileUpload).subscribe((event) => {      
       if (event instanceof HttpResponse) {
         this.message = event.body.message;
-        alert(this.message);
       }
       this.ngOnInit();
     });
     this.selectedFiles = undefined;
+    this.modalService.dismissAll(); //dismiss the modal
   }
+}
+
+openUpload(targetModal) {
+  this.message=null;
+  this.modalService.open(targetModal, {
+   centered: true,
+   backdrop: 'static',
+   size: 'lg'
+ });
 }
 }

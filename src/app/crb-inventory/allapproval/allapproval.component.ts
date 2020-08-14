@@ -17,6 +17,9 @@ export class AllapprovalComponent implements OnInit {
   staging : CRBInventoryStaging;
 
   closeResult: string;
+  message :string;
+  selectRecords: CRBInventoryStaging[];
+  checked : boolean;
 
   rejectSource : string;
   rejectDateOfItem: string;
@@ -28,6 +31,7 @@ export class AllapprovalComponent implements OnInit {
   rejectNonPermisibleExpectedDate: string;
   rejectStageId : number;
   rejectNotes : string;
+  rejectNotesAll : string;
 
   constructor(private crbService : CrbInventoryService,
     private modalService : NgbModal,
@@ -114,5 +118,56 @@ export class AllapprovalComponent implements OnInit {
               })
               this.modalService.dismissAll(); //dismiss the modal
             }
+
+openDetailsAll(targetModal) {
+  this.message=null;
+          
+  this.modalService.open(targetModal, {
+  centered: true,
+  backdrop: 'static',
+  size: 'lg'
+  });
+}
+
+  checkedAPAll(){
+    this.message = null;
+    if(this.checked == true){
+      this.checked = false;
+      this.selectRecords = null;
+    }
+    else{
+      this.checked = true;
+      this.selectRecords = this.allapproval;
+    }
+  }
+
+  checkedAP(stagingId : CRBInventoryStaging){
+    this.message = null;
+
+    if(!this.selectRecords) 
+    this.selectRecords=[stagingId]
+    else{
+    if(this.selectRecords.find(element => element == stagingId))
+    { console.log("Existed",this.selectRecords.findIndex(element => element == stagingId));
+    this.selectRecords.splice(this.selectRecords.findIndex(element => element == stagingId),1) 
+    }
+    else      
+    this.selectRecords.push(stagingId) ;    
+    }
+  }
+
+  onSelect(s: string){
+    this.message = null;
+    if(confirm("Are you sure you want to submit for approval?")){
+      for (var i = 0; i < this.selectRecords.length; i++) {
+        this.selectRecords[i].rejectionNotes = this.rejectNotesAll;
+        }  
+      this.crbService.approverejectAll(this.selectRecords,s).subscribe(resp=>{
+        this.message=resp.message;
+      this.ngOnInit();
+      this.modalService.dismissAll();
+    })
+    }
+  }
 
 }

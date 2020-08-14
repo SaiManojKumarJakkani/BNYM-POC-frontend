@@ -1,10 +1,20 @@
 <!-- // it will contain a record which will be Approved or reject -->
 <div class="container">
 
+    <!-- <div >
+        <h4 style="text-align: center;">{{message}}</h4>
+        <br>
+    </div> -->
+
     <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
+                <th>All
+                    <div style="size: 5px;">
+                        <input type="checkbox" id="stagingId" name="stagingId" class="form-control" (click) = "checkedAPAll()" [(checked)] = "checked">
+                    </div>
+                </th>
                 <th>Source</th>
                 <th>Date Of Item</th>
                 <!-- <th>Ecoo Company Name</th> -->
@@ -20,6 +30,9 @@
         </thead>
         <tbody>
             <tr *ngFor="let approval of allapproval">
+                <td>
+                    <input type="checkbox" id="stagingId" name="stagingId" value = {{approval.stagingId}} class="form-control" (click) = "checkedAP(approval)" [(checked)] = "checked">
+                </td>
                  <td>{{approval.source}}</td>
                  <td>{{approval.dateOfItem}}</td>
                  <!-- <td>{{approval.ecooCompanyName}}</td> -->
@@ -42,6 +55,12 @@
         </tbody>
     </table>
 </div>
+</div>
+<div style="text-align: right;"class="controlButton">
+    <button data-dismiss="modal" class="btn btn-success" (click)="onSelect('approve')"><i class="fa fa-thumbs-up"></i>Approve All</button>
+    <button data-dismiss="modal"  class="btn btn-danger" (click)="openDetailsAll(contentDetailsAll)"><i class="fa fa-thumbs-down"></i>Reject All</button>
+    <br>
+    <br>
 </div>
 
 <ng-template #content let-modal>
@@ -71,4 +90,27 @@
         </form>
     </div>
 </ng-template>
+
+<ng-template #contentDetailsAll let-modal>
+    <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Reason For Rejection...</h4>
+        </div>
+        <div class="modal-body">
+          <form #f="ngForm" (ngSubmit)="onSelect('reject')" novalidate>
+            <div class="form-group">
+                <label for="rejectionNotes"></label>
+                <div class="input-group">
+                    <input id="rejectionNotes" name = "rejectionNotes" class="form-control" [(ngModel)]="rejectNotesAll" >
+                </div>
+            </div>
+            <div class="text-center">
+                    <button data-dismiss="modal" class="btn btn-info">Reject</button>
+            </div>
+ 
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+        </div>
+</ng-template> 
 

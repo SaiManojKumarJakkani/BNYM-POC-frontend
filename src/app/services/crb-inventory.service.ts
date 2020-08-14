@@ -58,4 +58,11 @@ approveOrReject(crb : CRBInventoryStaging, a:string) : Observable<ResponseMessag
   return this.httpclient.put<ResponseMessage>(newUrl, crb);
 }
 
+approverejectAll( crb : CRBInventoryStaging[], s:string) : Observable<ResponseMessage>{
+  const newUrl = `${this.baseUrl}/crb/approverejectAll/${s}`;
+  return this.httpclient.put<ResponseMessage>(newUrl, crb);
+}
+
+
+
 }
