@@ -1,317 +1,333 @@
 <html>
-  <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-  </head>
-<body ng-app="">
-<div class="container">
-      <div >
-        <h4 style="text-align: center; text-emphasis-color: red;">{{message}}</h4>
-      </div>
-      <div class="border d-flex justify-content-between">
-        <button class="btn btn-md btn-outline-primary my-3" (click)="open(content)">
-          <i class="fa fa-plus"></i>Create New</button><br>
-        <!-- <div>   -->
-          <!-- <label><input type="file" id = "file" (change)="selectFile($event)"><span class="file-custom"></span></label>
-          <br>
-          <button class="btnsend" [disabled]="!selectedFiles" (click)="upload()"><i class="fa fa-upload">Bulk Upload</i></button>
-        </div> -->
-        <div class="panel panel-primary">
-          <button class="btn btn-md btn-outline-primary my-3" (click)="openUpload(contentDetailsUpload)"><i class="fa fa-upload">Bulk Upload</i></button>
-        <a href="http://localhost:8080/crb/downloadFile"><button class="btn btn-md btn-outline-primary my-3" ><i class="fa fa-upload">Download Details</i></button></a>
-        </div>
-      </div>
-    <div class="table-responsive">
-    <table class="table table-bordered table-striped cusTable">
-        <thead>
-            <tr>
-              <th>S.No</th>
-                <th>All
-                  <input type="checkbox" id="stagingId" name="stagingId" class="form-control" (click)="addApprovalAll()" [(checked)]="checked">
-                </th>
-                <th>Actions</th>
-                <th>Status</th>
-                <th>Source</th>
-                <th>Date Of Item</th>
-                <!-- <th>Ecoo Company Name</th> -->
-                <th>ISIN</th>
-                <th>CUSPIN</th>
-                <th>SEDOL</th>
-                <th>Private Company Name</th>
-                <th>Non Permisible Expected Date</th>
-                <!-- <th>Modified Date</th> -->
-                <th>Modified By</th>
-                
-                <th>Rejection Notes</th>
-            </tr>
-        </thead>
-            <tbody>
-                <tr *ngFor="let staging of allstaging; let i = index">
-                  <td>{{i+1}}</td>
-                  <td >
-                    <div *ngIf="staging.status=='InDraft'; else elseBlock"><input type="checkbox" id="stagingId" name="stagingId" value="{{staging.stagingId}}" class="form-control" (click)="addApproval(staging)" [(checked)]="checked">
-                    </div>
-                    <ng-template #elseBlock>
-                      <div *ngIf = "staging.status=='approved'; else rejectBlock">
-                        <i class="fa fa-check"></i> 
-                      </div>
-                      <ng-template #rejectBlock>
-                        <i class="fa fa-times"></i>
-                      </ng-template>
-                    </ng-template>
-                    </td>
-                    <td class="controlButton">
-                      <button class="btn btn-sm btn-info" (click) = "openDetails(contentDetails, staging)">
-                        <i class="fa fa-eye"></i>View</button>
-                      <div *ngIf="staging.status!='approved'; else disabledBlock">
-                        <button class="btn btn-sm btn-warning" (click) = "openEdit(contentEdit, staging)">
-                          <i class="fa fa-edit"></i>Edit</button>
-                      </div>
-                      <ng-template #disabledBlock>
-                        <button class="btn btn-sm btn-warning" (click) = "openEdit(contentEdit, staging)" disabled>
-                          <i class="fa fa-edit"></i>Edit</button>
-                      </ng-template>
-                  </td>
-                    <td>{{staging.status}}</td>
-                    <td>{{staging.source}}</td>
-                    <td>{{staging.dateOfItem}}</td>
-                    <!-- <td>{{staging.ecooCompanyName}}</td> -->
-                    <td>{{staging.isin}}</td>
-                    <td>{{staging.cuspin}}</td>
-                    <td>{{staging.sedol}}</td>
-                    <td>{{staging.privateComapanyName}}</td>
-                    <td>{{staging.nonPermisibleExpectedDate}}</td>
-                    <!-- <td>{{staging.date}}</td> -->
-                    <td> {{modifiedBy}}</td>
-                    <td>{{staging.rejectionNotes}}</td>
-                </tr>
-            </tbody>
-          </table>
-    <!-- <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls> -->
 
-  </div>
-    <div class="border text-right">
-      <button data-dismiss="modal" class="btn btn-info" (click)="onSelect()">Submit</button>
+<head>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script> -->
+</head>
+
+<body>
+  <div class="container">
+    <div>
+      <h4 style="text-align: center; color: green;">{{message}}</h4>
     </div>
- </div>
+    <div class="d-flex justify-content-between">
+      <button class="btn btn-md btn-outline-primary my-3" (click)="open(content)">
+        <i class="fa fa-plus"></i>Create New</button><br>
+      <div class="panel panel-primary">
+        <button class="btn btn-md btn-outline-primary my-3" (click)="openUpload(contentDetailsUpload)"><i
+            class="fa fa-upload">Bulk Upload</i></button>
+        <a href="http://localhost:8080/crb/downloadFile"><button class="btn btn-md btn-outline-primary my-3"><i
+              class="fa fa-upload">Download Details</i></button></a>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped cusTable">
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>All
+              <input type="checkbox" id="stagingId" name="stagingId" class="form-control" (click)="addApprovalAll()"
+                [(checked)]="checked">
+            </th>
+            <th>Actions</th>
+            <th>Status</th>
+            <th>Source</th>
+            <th>Date Of Item</th>
+            <!-- <th>Ecoo Company Name</th> -->
+            <th>ISIN</th>
+            <th>CUSPIN</th>
+            <th>SEDOL</th>
+            <th>Private Company Name</th>
+            <th>Non Permisible Expected Date</th>
+            <!-- <th>Modified Date</th> -->
+            <th>Modified By</th>
 
-<ng-template #content let-modal>
+            <th>Rejection Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let staging of allstaging; let i = index">
+            <td>{{i+1}}</td>
+            <td>
+              <div *ngIf="staging.status=='InDraft'; else elseBlock"><input type="checkbox" id="stagingId"
+                  name="stagingId" value="{{staging.stagingId}}" class="form-control" (click)="addApproval(staging)"
+                  [(checked)]="checked">
+              </div>
+              <ng-template #elseBlock>
+                <div *ngIf="staging.status=='approved'; else rejectBlock">
+                  <i class="fa fa-check"></i>
+                </div>
+                <ng-template #rejectBlock>
+                  <i class="fa fa-times"></i>
+                </ng-template>
+              </ng-template>
+            </td>
+            <td class="controlButton">
+              <button class="btn btn-sm btn-info" (click)="openDetails(contentDetails, staging)">
+                <i class="fa fa-eye"></i>View</button>
+              <div *ngIf="staging.status!='approved'; else disabledBlock">
+                <button class="btn btn-sm btn-warning" (click)="openEdit(contentEdit, staging)">
+                  <i class="fa fa-edit"></i>Edit</button>
+              </div>
+              <ng-template #disabledBlock>
+                <button class="btn btn-sm btn-warning" (click)="openEdit(contentEdit, staging)">
+                  <i class="fa fa-edit"></i>Edit</button>
+              </ng-template>
+            </td>
+            <td>{{staging.status}}</td>
+            <td>{{staging.source}}</td>
+            <td>{{staging.dateOfItem}}</td>
+            <!-- <td>{{staging.ecooCompanyName}}</td> -->
+            <td>{{staging.isin}}</td>
+            <td>{{staging.cuspin}}</td>
+            <td>{{staging.sedol}}</td>
+            <td>{{staging.privateComapanyName}}</td>
+            <td>{{staging.nonPermisibleExpectedDate}}</td>
+            <!-- <td>{{staging.date}}</td> -->
+            <td> {{modifiedBy}}</td>
+            <td>{{staging.rejectionNotes}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls> -->
+
+    </div>
+    <div class="border text-right">
+      <button data-dismiss="modal" id= "submit" class="btn btn-info" (click)="onSelect()">Submit</button>
+    </div>
+  </div>
+
+  <ng-template #content let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Create New</h4>
-            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-             <span aria-hidden="true">&times;</span>
-            </button>
+      <h4 class="modal-title" id="modal-basic-title">Create New</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
     <div class="modal-body">
-        <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
-            <div class="form-group">
-                <label for="source">Source</label>
-                  <div class="input-group">
-                    <input id="source" name = "source" class="form-control" ngModel required>
-                  </div>
+      <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+
+        <!-- <div class="row"  *ngIf="showmsg">
+            <div class="col-xs-12">
+              <p class="alert alert-success">
+                  <strong>Success!</strong>
+    
+              </p>
             </div>
-            <div class="form-group">
-                    <label for="dateOfItem">Date of Item</label>
-                    <div class="input-group">
-                      <input type= "date" id="dateOfItem" name="dateOfItem" class="form-control" ngModel required>
-                    </div>
-            </div>
-            <!-- <div class="form-group">
+          </div> -->
+        <div class="form-group">
+          <label for="source">Source</label>
+          <div class="input-group">
+            <input id="source" name="source" class="form-control" ngModel required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="dateOfItem">Date of Item</label>
+          <div class="input-group">
+            <input type="text" id="dateOfItem" name="dateOfItem" class="form-control" ngModel required>
+          </div>
+        </div>
+        <!-- <div class="form-group">
                     <label for="ecooCompanyName">Ecoo Company Name</label>
                     <div class="input-group">
                       <input id="ecooCompanyName" name= "ecooCompanyName" class="form-control" ngModel>
                     </div>
             </div> -->
-            <div class="form-group">
-                    <label for="isin">ISIN</label>
-                    <div class="input-group">
-                      <input id="isin" name= "isin" class="form-control" ngModel required>
-                    </div>
-            </div>
-            <div class="form-group">
-                    <label for="cuspin">CUSPIN</label>
-                    <div class="input-group">
-                      <input id="cuspin" name= "cuspin" class="form-control" ngModel required>
-                    </div>
-            </div>
-            <div class="form-group">
-                    <label for="sedol">SEDOL</label>
-                    <div class="input-group">
-                      <input id="sedol" name= "sedol"  class="form-control" ngModel required>
-                    </div>
-            </div>
-            <div class="form-group">
-                    <label for="privateComapanyName">Private Company Name</label>
-                    <div class="input-group">
-                      <input id="privateComapanyName" name= "privateComapanyName" class="form-control" ngModel required>
-                    </div>
-            </div>
-            <div class="form-group">
-                    <label for="nonPermisibleExpectedDate">Non Permisible Expected Date</label>
-                    <div class="input-group">
-                      <input type="date" id="nonPermisibleExpectedDate" name= "nonPermisibleExpectedDate" class="form-control" ngModel required>
-                    </div>
-            </div>
-            <div class="border text-center">
-                    <button data-dismiss="modal" class="btn btn-info">Submit</button>
-            </div>
-        </form>
+        <div class="form-group">
+          <label for="isin">ISIN</label>
+          <div class="input-group">
+            <input id="isin" name="isin" class="form-control" ngModel required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="cuspin">CUSPIN</label>
+          <div class="input-group">
+            <input id="cuspin" name="cuspin" class="form-control" ngModel required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="sedol">SEDOL</label>
+          <div class="input-group">
+            <input id="sedol" name="sedol" class="form-control" ngModel required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="privateComapanyName">Private Company Name</label>
+          <div class="input-group">
+            <input id="privateComapanyName" name="privateComapanyName" class="form-control" ngModel required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="nonPermisibleExpectedDate">Non Permisible Expected Date</label>
+          <div class="input-group">
+            <input type="text" id="nonPermisibleExpectedDate" name="nonPermisibleExpectedDate" class="form-control"
+              ngModel required>
+          </div>
+        </div>
+        <div class="border text-center">
+          <button data-dismiss="modal" class="btn btn-info">Submit</button>
+        </div>
+      </form>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
     </div>
- </ng-template>
+  </ng-template>
 
-          <ng-template #contentDetails let-modal>
-            <div class="modal-header">
-                  <h4 class="modal-title" id="modal-basic-title">Details</h4>
-                  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
-                    <div class="form-group">
-                      <label for="source">Source</label>
-                      <div class="input-group">
-                        <input id="src" class="form-control" readonly>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="dateOfItem">Date of Item</label>
-                        <div class="input-group">
-                          <input id="dot" class="form-control" readonly>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label for="ecooCompanyName">Ecoo Company Name</label>
-                        <div class="input-group">
-                          <input id="ecn" class="form-control" readonly>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label for="isin">ISIN</label>
-                        <div class="input-group">
-                          <input id="isi"  class="form-control" readonly>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label for="cuspin">CUSPIN</label>
-                        <div class="input-group">
-                          <input id="cus"  class="form-control" readonly>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label for="sedol">SEDOL</label>
-                        <div class="input-group">
-                          <input id= "sed" class="form-control" readonly>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label for="privateComapanyName">Private Company Name</label>
-                        <div class="input-group">
-                          <input id="pcn" class="form-control" readonly>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label for="nonPermisibleExpectedDate">Non Permisible Expected Date</label>
-                        <div class="input-group">
-                          <input id="nped" class="form-control" readonly >
-                        </div>
-                      </div>
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
-                </div>
-              </ng-template>
+  <ng-template #contentDetails let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Details</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+        <div class="form-group">
+          <label for="source">Source</label>
+          <div class="input-group">
+            <input id="src" class="form-control" readonly>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="dateOfItem">Date of Item</label>
+          <div class="input-group">
+            <input id="dot" class="form-control" readonly>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="ecooCompanyName">Ecoo Company Name</label>
+          <div class="input-group">
+            <input id="ecn" class="form-control" readonly>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="isin">ISIN</label>
+          <div class="input-group">
+            <input id="isi" class="form-control" readonly>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="cuspin">CUSPIN</label>
+          <div class="input-group">
+            <input id="cus" class="form-control" readonly>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="sedol">SEDOL</label>
+          <div class="input-group">
+            <input id="sed" class="form-control" readonly>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="privateComapanyName">Private Company Name</label>
+          <div class="input-group">
+            <input id="pcn" class="form-control" readonly>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="nonPermisibleExpectedDate">Non Permisible Expected Date</label>
+          <div class="input-group">
+            <input id="nped" class="form-control" readonly>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+    </div>
+  </ng-template>
 
-              <ng-template #contentEdit let-modal>
-                <div class="modal-header">
-                      <h4 class="modal-title" id="modal-basic-title2">Update Your Record</h4>
-                      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      <form #f="ngForm" (ngSubmit)="onUpdate(f.value)" novalidate>
-                        <div class="form-group">
-                          <label for="source">Staging Id</label>
-                          <div class="input-group">
-                            <input id="stgId" name = "stagingId" class="form-control" readonly [(ngModel)] = "editStageId">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label for="source">Source</label>
-                          <div class="input-group">
-                            <input id="s" name = "source" class="form-control" [(ngModel)]="editSource">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="dateOfItem">Date of Item</label>
-                            <div class="input-group">
-                              <input id="date" name="dateOfItem" class="form-control" [(ngModel)]="editDateOfItem" >
-                            </div>
-                          </div>
-                          <!-- <div class="form-group">
+  <ng-template #contentEdit let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title2">Update Your Record</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form #f="ngForm" (ngSubmit)="onUpdate(f.value)" novalidate>
+        <div class="form-group">
+          <label for="source">Staging Id</label>
+          <div class="input-group">
+            <input id="stgId" name="stagingId" class="form-control" readonly [(ngModel)]="editStageId">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="source">Source</label>
+          <div class="input-group">
+            <input id="s" name="source" class="form-control" [(ngModel)]="editSource">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="dateOfItem">Date of Item</label>
+          <div class="input-group">
+            <input id="date" name="dateOfItem" class="form-control" [(ngModel)]="editDateOfItem">
+          </div>
+        </div>
+        <!-- <div class="form-group">
                             <label for="ecooCompanyName">Ecoo Company Name</label>
                             <div class="input-group">
                               <input id="ecoo" name= "ecooCompanyName" class="form-control" [(ngModel)]="editEcooCompanyName" >
                             </div>
                           </div> -->
-                          <div class="form-group">
-                            <label for="isin">ISIN</label>
-                            <div class="input-group">
-                              <input id="is" name= "isin" class="form-control" [(ngModel)]="editisin" >
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            <label for="cuspin">CUSPIN</label>
-                            <div class="input-group">
-                              <input id="c" name= "cuspin" class="form-control" [(ngModel)]="editCuspin" >
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            <label for="sedol">SEDOL</label>
-                            <div class="input-group">
-                              <input id="sd" name= "sedol" class="form-control" [(ngModel)]="editsedol">
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            <label for="privateComapanyName">Private Company Name</label>
-                            <div class="input-group">
-                              <input id= "private" name="privateComapanyName" class="form-control" [(ngModel)]="editPrivateComapanyName">
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            <label for="nonPermisibleExpectedDate">Non Permisible Expected Date</label>
-                            <div class="input-group">
-                              <input id = "non" name= "nonPermisibleExpectedDate" class="form-control" [(ngModel)]="editNonPermisibleExpectedDate">
-                            </div>
-                          </div>
-                          <div class="border text-center">
-                            <button data-dismiss="modal" class="btn btn-info">Save Changes</button>
-                          </div>
-                      </form>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
-                    </div>
-                  </ng-template>
+        <div class="form-group">
+          <label for="isin">ISIN</label>
+          <div class="input-group">
+            <input id="is" name="isin" class="form-control" [(ngModel)]="editisin">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="cuspin">CUSPIN</label>
+          <div class="input-group">
+            <input id="c" name="cuspin" class="form-control" [(ngModel)]="editCuspin">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="sedol">SEDOL</label>
+          <div class="input-group">
+            <input id="sd" name="sedol" class="form-control" [(ngModel)]="editsedol">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="privateComapanyName">Private Company Name</label>
+          <div class="input-group">
+            <input id="private" name="privateComapanyName" class="form-control" [(ngModel)]="editPrivateComapanyName">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="nonPermisibleExpectedDate">Non Permisible Expected Date</label>
+          <div class="input-group">
+            <input id="non" name="nonPermisibleExpectedDate" class="form-control"
+              [(ngModel)]="editNonPermisibleExpectedDate">
+          </div>
+        </div>
+        <div class="border text-center">
+          <button data-dismiss="modal" class="btn btn-info">Save Changes</button>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+    </div>
+  </ng-template>
   <ng-template #contentDetailsUpload let-modal>
     <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">Upload file</h4>
     </div>
     <div class="modal-body">
       <div class="panel panel-primary" style="align-items: center;">
-        <label style="text-align: center;"><input type="file" (change)="selectFile($event)"><span class="file-custom"></span></label>
+        <label style="text-align: center;"><input type="file" (change)="selectFile($event)"><span
+            class="file-custom"></span></label>
         <br>
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-md btn-outline-primary my-3" [disabled]="!selectedFiles" (click)="upload()"><i class="fa fa-upload">Upload</i></button>
+      <button class="btn btn-md btn-outline-primary my-3" [disabled]="!selectedFiles" (click)="upload()"><i
+          class="fa fa-upload">Upload</i></button>
       <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
     </div>
-    </ng-template>             
+  </ng-template>
 
 </body>
+
 </html>

@@ -25,7 +25,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     NgbModule,
     ReactiveFormsModule,
     //JwPaginationModule
-     NgxPaginationModule
+     NgxPaginationModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

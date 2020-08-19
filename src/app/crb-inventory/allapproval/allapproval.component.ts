@@ -18,6 +18,7 @@ export class AllapprovalComponent implements OnInit {
 
   closeResult: string;
   message :string;
+  color : string;
   selectRecords: CRBInventoryStaging[];
   checked : boolean;
 
@@ -68,15 +69,16 @@ export class AllapprovalComponent implements OnInit {
   }
 
   approveOrReject(crb : CRBInventoryStaging, a : string){
+    this.message = null;
+    this.color = null;
     if(confirm("Are you sure you want to "+a+"?"))
     this.crbService.approveOrReject(crb,a).subscribe(resp=>{
       if(resp){
       var response = JSON.parse(JSON.stringify(resp));
       if(response.status == "approved"){
-        alert("Approved Successfully !!!");
-      }else{
-        alert("Rejected!!!");
-      } 
+        this.message = "Approved Successfully !!!";
+        this.color = "green";
+      }
       this.ngOnInit();
       }
     })
@@ -101,6 +103,8 @@ export class AllapprovalComponent implements OnInit {
    }
   
   onReject(f:CRBInventoryStaging){
+    this.message = null;
+    this.color = null;
     console.log(f);
     this.staging={stagingId : this.rejectStageId, status: null, date :null, source: this.rejectSource,
                   dateOfItem: this.rejectDateOfItem,
@@ -111,8 +115,8 @@ export class AllapprovalComponent implements OnInit {
                   rejectionNotes : this.rejectNotes};
                   this.crbService.approveOrReject(this.staging,"reject").subscribe(resp=>{
                 if(resp){
-                  var message= "Rejected";
-                  alert(message);
+                  this.message= "Rejected";
+                  this.color= "red";
                 this.ngOnInit();
                 }
               })

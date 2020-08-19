@@ -4,10 +4,6 @@ import { CrbInventoryService } from 'src/app/services/crb-inventory.service';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { NgForm, FormGroup, FormBuilder, FormControl} from '@angular/forms';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { checkServerIdentity } from 'tls';
-import { JwPaginationModule } from 'jw-angular-pagination';
-// import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-allstaging',
@@ -45,6 +41,8 @@ export class AllstagingComponent implements OnInit {
   totalRecords : string;
   page : number = 1;
 
+  showmsg : boolean = false;
+
   constructor( private crbService : CrbInventoryService,
      private modalService : NgbModal,
      private http : HttpClient,
@@ -64,11 +62,7 @@ export class AllstagingComponent implements OnInit {
       this.allstaging = response;
     })
     this.checked = null;
-    // for(var i=0;i<this.allstaging.length;i++)
-    // console.log("check",this.allstaging[i]);
   }
-
-
 
   // pageChanged(event){
   //   this.config.currentPage = event;
@@ -93,11 +87,11 @@ export class AllstagingComponent implements OnInit {
 
   //add
   onSubmit(f: NgForm) {
+    this.message = null;
     const url = 'http://localhost:8080/crb/add';
     this.http.post(url, f.value)
       .subscribe((result) => {
-        var message = "Record entered Successfuly!";
-        alert(message); 
+        this.message = "Your record entered Successfuly!";
         this.ngOnInit(); //reload the table
       });
     this.modalService.dismissAll(); //dismiss the modal
@@ -133,6 +127,7 @@ upload() {
     
     if (event instanceof HttpResponse) {
       this.message = event.body.message;
+      this.message = "Uploaded Successfuly!";
       //alert(this.message);
     }
     this.ngOnInit();
@@ -148,8 +143,8 @@ onSelect(){
   if(confirm("Are you sure, you want to submit the records for Approval?"))
   this.crbService.inApproval(this.selectApproval).subscribe(response => {
     //this.message = response.message;
-     var message = "your record successfuly submited and in Inaproval state";
-     alert(message);
+     this.message = "your record successfuly submited to Inaproval state";
+     //alert(message);
     this.ngOnInit();
   })
 }
@@ -196,6 +191,7 @@ addApprovalAll(){
     
   }
   onUpdate(f: CRBInventoryStaging) {
+    this.message = null;
     console.log(f);
     this.staging = {stagingId: this.editStageId,status:null, date:null, source: this.editSource,
                    dateOfItem: this.editDateOfItem,
@@ -206,8 +202,8 @@ addApprovalAll(){
                     rejectionNotes : this.editRejection};
     this.crbService.updateDetails(this.staging).subscribe(response =>{
       //this.message = response.message;
-       var message= "Your Data has been updated Successfully";
-       alert(message);
+       this.message= "Your Data has been updated Successfully";
+       //alert(message);
       this.ngOnInit();
     })
     this.modalService.dismissAll();

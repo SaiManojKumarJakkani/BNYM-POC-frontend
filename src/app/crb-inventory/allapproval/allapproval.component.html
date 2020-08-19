@@ -1,10 +1,10 @@
 <!-- // it will contain a record which will be Approved or reject -->
 <div class="container">
 
-    <!-- <div >
-        <h4 style="text-align: center;">{{message}}</h4>
+    <div >
+    <h4 style="text-align: center; color:{{color}}">{{message}}</h4>
         <br>
-    </div> -->
+    </div>
 
     <div class="table-responsive">
     <table class="table table-bordered table-striped">
@@ -24,7 +24,7 @@
                 <th>Private Company Name</th>
                 <th>Non Permisible Expected Date</th>
                 <th>Status</th>
-                <th>Modified Date</th>
+                <!-- <th>Modified Date</th> -->
                 <th>Action</th>
             </tr>
         </thead>
@@ -42,7 +42,7 @@
                  <td>{{approval.privateComapanyName}}</td>
                  <td>{{approval.nonPermisibleExpectedDate}}</td>
                  <td>{{approval.status}}</td>
-                 <td>{{approval.date}}</td>
+                 <!-- <td>{{approval.date}}</td> -->
                  <td class="controlButton">
                     <button class="btn btn-sm btn-success" (click)="approveOrReject(approval,'approved')" >
                         <i class="fa fa-thumbs-up"></i>Approve</button>
@@ -93,7 +93,7 @@
 
 <ng-template #contentDetailsAll let-modal>
     <div class="modal-header">
-          <h4 class="modal-title" id="modal-basic-title">Reason For Rejection...</h4>
+          <h4 class="modal-title" id="modal-basic-title">Reason For Rejection!</h4>
         </div>
         <div class="modal-body">
           <form #f="ngForm" (ngSubmit)="onSelect('reject')" novalidate>
