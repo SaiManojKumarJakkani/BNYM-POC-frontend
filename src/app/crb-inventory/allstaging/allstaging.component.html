@@ -15,8 +15,8 @@
       <div class="panel panel-primary">
         <button class="btn btn-md btn-outline-primary my-3" (click)="openUpload(contentDetailsUpload)"><i
             class="fa fa-upload">Bulk Upload</i></button>
-        <a href="http://localhost:8080/crb/downloadFile"><button class="btn btn-md btn-outline-primary my-3"><i
-              class="fa fa-upload">Download Details</i></button></a>
+        <a href="http://localhost:8080/crb/downloadFile"><button class="btn btn-md btn-outline-primary my-3">
+          <i class="fa fa-download" aria-hidden="true">Download Details</i></button></a>
       </div>
     </div>
     <div class="table-responsive">
@@ -105,25 +105,16 @@
     </div>
     <div class="modal-body">
       <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
-
-        <!-- <div class="row"  *ngIf="showmsg">
-            <div class="col-xs-12">
-              <p class="alert alert-success">
-                  <strong>Success!</strong>
-    
-              </p>
-            </div>
-          </div> -->
         <div class="form-group">
           <label for="source">Source</label>
           <div class="input-group">
-            <input id="source" name="source" class="form-control" ngModel required>
+            <input id="source" required type="text" name="source" (focus) = "isValidate()" (keyup) = "isValidate()" class="form-control" ngModel>
           </div>
         </div>
         <div class="form-group">
           <label for="dateOfItem">Date of Item</label>
           <div class="input-group">
-            <input type="text" id="dateOfItem" name="dateOfItem" class="form-control" ngModel required>
+            <input type="text" id="dateOfItem" name="dateOfItem" class="form-control"  (focus) = "isValidate()" (keyup) = "isValidate()" ngModel required>
           </div>
         </div>
         <!-- <div class="form-group">
@@ -135,36 +126,37 @@
         <div class="form-group">
           <label for="isin">ISIN</label>
           <div class="input-group">
-            <input id="isin" name="isin" class="form-control" ngModel required>
+            <input id="isin" name="isin" class="form-control"  (focus) = "isValidate()" (keyup) = "isValidate()" ngModel required>
           </div>
         </div>
         <div class="form-group">
           <label for="cuspin">CUSPIN</label>
           <div class="input-group">
-            <input id="cuspin" name="cuspin" class="form-control" ngModel required>
+            <input id="cuspin" name="cuspin" class="form-control"  (focus) = "isValidate()" (keyup) = "isValidate()" ngModel required>
           </div>
         </div>
         <div class="form-group">
           <label for="sedol">SEDOL</label>
           <div class="input-group">
-            <input id="sedol" name="sedol" class="form-control" ngModel required>
+            <input id="sedol" name="sedol" class="form-control"  (focus) = "isValidate()" (keyup) = "isValidate()" ngModel required>
           </div>
         </div>
         <div class="form-group">
           <label for="privateComapanyName">Private Company Name</label>
           <div class="input-group">
-            <input id="privateComapanyName" name="privateComapanyName" class="form-control" ngModel required>
+            <input id="privateComapanyName" name="privateComapanyName" class="form-control"  (focus) = "isValidate()" (keyup) = "isValidate()" ngModel required>
           </div>
         </div>
         <div class="form-group">
           <label for="nonPermisibleExpectedDate">Non Permisible Expected Date</label>
           <div class="input-group">
             <input type="text" id="nonPermisibleExpectedDate" name="nonPermisibleExpectedDate" class="form-control"
-              ngModel required>
+            (focus) = "isValidate()" (keyup) = "isValidate()" ngModel required>
           </div>
         </div>
+        
         <div class="border text-center">
-          <button data-dismiss="modal" class="btn btn-info">Submit</button>
+          <button data-dismiss="modal" class="btn btn-info" id="formSubmitButton" disabled>Submit</button>
         </div>
       </form>
     </div>

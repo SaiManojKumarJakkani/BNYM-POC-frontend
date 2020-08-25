@@ -113,7 +113,7 @@ export class AllapprovalComponent implements OnInit {
                   sedol: this.rejectsedol, privateComapanyName: this.rejectPrivateComapanyName,
                   nonPermisibleExpectedDate: this.rejectNonPermisibleExpectedDate,
                   rejectionNotes : this.rejectNotes};
-                  this.crbService.approveOrReject(this.staging,"reject").subscribe(resp=>{
+                  this.crbService.approveOrReject(this.staging,"rejected").subscribe(resp=>{
                 if(resp){
                   this.message= "Rejected";
                   this.color= "red";

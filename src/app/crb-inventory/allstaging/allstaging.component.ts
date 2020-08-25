@@ -96,9 +96,23 @@ export class AllstagingComponent implements OnInit {
       });
     this.modalService.dismissAll(); //dismiss the modal
   }
+  isValidate(){
+    var field1 = (<HTMLInputElement>document.getElementById("source")).value
+    var field2 = (<HTMLInputElement>document.getElementById("dateOfItem")).value;
+    var field3 = (<HTMLInputElement>document.getElementById("isin")).value;
+    var field4 = (<HTMLInputElement>document.getElementById("cuspin")).value;
+    var field5 = (<HTMLInputElement>document.getElementById("sedol")).value;
+    var field6 = (<HTMLInputElement>document.getElementById("privateComapanyName")).value;
+    var field7 = (<HTMLInputElement>document.getElementById("nonPermisibleExpectedDate")).value;
+    if (field1!=null && field1!="" && field2!=null && field2!="" && field3!=null && field3!="" && field4!=null && field4!="" && field5!=null && field5!="" && field6!=null && field6!="" && field7!=null && field7!=""){
+      (<HTMLButtonElement>document.getElementById("formSubmitButton")).disabled = false;
+    }else{
+      (<HTMLButtonElement>document.getElementById("formSubmitButton")).disabled = true;
+    }
+  }
 
   //details/view
-  openDetails(targetModal, staging: CRBInventoryStaging) {
+  openDetails(targetModal, staging: CRBInventoryStaging){
     this.modalService.open(targetModal, {
      centered: true,
      backdrop: 'static',
@@ -127,7 +141,7 @@ upload() {
     
     if (event instanceof HttpResponse) {
       this.message = event.body.message;
-      this.message = "Uploaded Successfuly!";
+      //this.message = "Uploaded Successfuly!";
       //alert(this.message);
     }
     this.ngOnInit();
