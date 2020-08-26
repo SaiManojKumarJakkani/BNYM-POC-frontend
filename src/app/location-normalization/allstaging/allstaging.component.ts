@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { LocationStaging } from 'src/app/LocationStaging';
-import { LocationNormalization } from 'src/app/LocationNormalization.service';
+import { LocationStaging } from 'src/app/modal/LocationStaging';
+import { LocationNormalization } from 'src/app/services/LocationNormalization.service';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { NgForm, FormGroup, FormBuilder, FormControl} from '@angular/forms';
 import { HttpResponse, HttpHeaderResponse } from '@angular/common/http';
@@ -70,29 +70,41 @@ loc:LocationStaging;
  }
   onSubmit(f: LocationStaging) {
     this.message=null;
+    if(f.locationName!="" && f.normalizedLocation!=""){
     this.locationNormalization.saveDetails(f).subscribe(resp=>{
       this.message=resp.message;
       this.ngOnInit();   
     })
+    
     this.modalService.dismissAll(); //dismiss the modal
+  }
   }
   onEdit(f:LocationStaging){
     this.message=null;
-    console.log(f);
+    if((this.allstaging.find(x => x.locationName == this.editLocation)).normalizedLocation ==this.editNormalized){
+      console.log("Found!");
+    }
+    else{
     this.loc={id:0,status:null,modifiedDate:null, locationName: this.editLocation,normalizedLocation: this.editNormalized, rejectionNotes:this.editRejection};
     this.locationNormalization.updateDetails(this.loc).subscribe(resp=>{
       this.message=resp.message;
       this.ngOnInit();   
     })
+
     this.modalService.dismissAll(); //dismiss the modal
+  }
   }
   onSelect() {
     this.message=null;
+    console.log(this.selectApproval);
+    if(this.selectApproval!=null && this.selectApproval.length!=0){
     if(confirm("Are you sure, you want to submit the records for Approval?"))
     this.locationNormalization.toInApproval(this.selectApproval).subscribe(resp=>{
       this.message=resp.message;
+      this.selectApproval=null;
       this.ngOnInit();
     })
+  }
   }
   addApproval(id:LocationStaging){
 
@@ -102,7 +114,7 @@ loc:LocationStaging;
     else{
     if(this.selectApproval.find(element => element == id))
     { console.log("Existed",this.selectApproval.findIndex(element => element == id));
-      this.selectApproval.splice(this.selectApproval.findIndex(element => element == id),1) 
+      this.selectApproval.splice(this.selectApproval.findIndex(element => element == id),1)
     }
     else      
     this.selectApproval.push(id) ;    

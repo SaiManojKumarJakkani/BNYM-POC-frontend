@@ -5,7 +5,7 @@
     <body  ng-app="">
     <div class="container">
         <div >
-            <h4 style="text-align: center; text-emphasis-color: red;">{{message}}</h4>
+            <h4 style="text-align: center;">{{message}}</h4>
         </div>
         <div class="d-flex justify-content-between">
             <button class="btn btn-md btn-outline-primary my-3"  (click)="open(content)"><i class="fa fa-plus"></i>Create New</button>
@@ -19,8 +19,9 @@
     <table class="table table-bordered table-striped cusTable">
         <thead>
             <tr>
+                <th>S.No</th>
                 <th>All
-                <input type="checkbox" id="id" name="id" class="form-control" (click)="addApprovalAll()" [(checked)]="checked">
+                <input type="checkbox" id="x" name="x" class="form-control" (click)="addApprovalAll()" [(checked)]="checked">
                 </th>
                 <th>Action</th>
                 <th>Status</th>
@@ -31,15 +32,22 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let staging of allstaging">
+            <tr *ngFor="let staging of allstaging; let i = index">
+                <td>{{i+1}}</td>
                 <td >
                 <div *ngIf="staging.status=='IN_DRAFT'; else elseBlock"><input type="checkbox" id="id" name="id" value="{{staging.id}}" class="form-control" (click)="addApproval(staging)" [(checked)]="checked">
                 </div>
                 <ng-template #elseBlock> </ng-template>
                 </td>
                 <td>
+                <div *ngIf="staging.status!='IN_APPROVAL'; else disabledBlock">
                     <button class="btn btn-sm btn-info" (click) = "openDetails(contentDetails, staging)">
                     <i class="fa fa-edit"></i>Edit</button>
+                </div>
+                <ng-template #disabledBlock>
+                    <button class="btn btn-sm btn-info"  disabled>
+                      <i class="fa fa-edit"></i>Edit</button>
+                </ng-template>
                  </td>
                 <td>{{staging.status}}</td>
                 <td>{{staging.locationName}}</td>
@@ -66,13 +74,13 @@
                 <div class="form-group">
                     <label for="locationName">Location Name</label>
                     <div class="input-group">
-                        <input id="locationName" name = "locationName" class="form-control" ngModel>
+                        <input id="locationName" name = "locationName" class="form-control" ngModel required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="normalizedLocation">Normalized Location</label>
                     <div class="input-group">
-                      <input id="normalizedLocation" name="normalizedLocation" class="form-control" ngModel>
+                      <input id="normalizedLocation" name="normalizedLocation" class="form-control" ngModel required>
                     </div>
                 </div>
                 <div class="border text-center">
@@ -119,7 +127,7 @@
         </div>
         <div class="modal-body">
             <div class="panel panel-primary" style="align-items: center;">
-                <label style="text-align: center;"><input type="file" (change)="selectFile($event)"><span class="file-custom"></span></label>
+                <label style="text-align: center;"><input type="file"id="fileUpload" (change)="selectFile($event)"><span class="file-custom"></span></label>
                 <br>
             </div>
         </div>

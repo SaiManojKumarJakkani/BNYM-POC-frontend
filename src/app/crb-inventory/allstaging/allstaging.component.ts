@@ -6,7 +6,7 @@ import { NgForm, FormGroup, FormBuilder, FormControl} from '@angular/forms';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { checkServerIdentity } from 'tls';
-import { JwPaginationModule } from 'jw-angular-pagination';
+//import { JwPaginationModule } from 'jw-angular-pagination';
 // import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
@@ -93,12 +93,13 @@ export class AllstagingComponent implements OnInit {
 
   //add
   onSubmit(f: NgForm) {
+    this.message=null;
     const url = 'http://localhost:8080/crb/add';
-    this.http.post(url, f.value)
-      .subscribe((result) => {
-        var message = "Record entered Successfuly!";
-        alert(message); 
-        this.ngOnInit(); //reload the table
+    this.http.post(url, f.value).subscribe((result) => {
+        if(result){
+        this.message="Record entered Successfuly!";
+        this.ngOnInit(); 
+        }
       });
     this.modalService.dismissAll(); //dismiss the modal
   }
@@ -128,9 +129,7 @@ upload() {
   this.message = null;
   if(confirm("Are you sure, you want to Upload this file ?")) {
   this.currentFileUpload = this.selectedFiles.item(0);
-  this.crbService.uploadFile(this.currentFileUpload).subscribe((event) => {
-    console.log("check",event);
-    
+  this.crbService.uploadFile(this.currentFileUpload).subscribe((event) => {    
     if (event instanceof HttpResponse) {
       this.message = event.body.message;
       //alert(this.message);
@@ -149,8 +148,8 @@ onSelect(){
   this.crbService.inApproval(this.selectApproval).subscribe(response => {
     //this.message = response.message;
      var message = "your record successfuly submited and in Inaproval state";
-     alert(message);
-    this.ngOnInit();
+      this.message=message;
+       this.ngOnInit();
   })
 }
 
@@ -207,8 +206,8 @@ addApprovalAll(){
     this.crbService.updateDetails(this.staging).subscribe(response =>{
       //this.message = response.message;
        var message= "Your Data has been updated Successfully";
-       alert(message);
-      this.ngOnInit();
+      this.message=message
+       this.ngOnInit();
     })
     this.modalService.dismissAll();
 

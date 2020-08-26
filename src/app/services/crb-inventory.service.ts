@@ -3,7 +3,7 @@ import { HttpClient, HttpRequest, HttpHeaders, HttpResponse, HttpEvent } from '@
 import { CRBInventoryStaging } from '../modal/CRBInventoryStaging';
 import { Observable } from 'rxjs';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import { ResponseMessage } from '../ResponseMessage';
+import { ResponseMessage } from '../modal/ResponseMessage';
 import { createBrotliCompress } from 'zlib';
 
 @Injectable({

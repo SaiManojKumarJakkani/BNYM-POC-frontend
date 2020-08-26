@@ -10,6 +10,7 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
+                <th>S.No</th>
                 <th>All
                     <div style="size: 5px;">
                         <input type="checkbox" id="stagingId" name="stagingId" class="form-control" (click) = "checkedAPAll()" [(checked)] = "checked">
@@ -29,7 +30,9 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let approval of allapproval">
+            <tr *ngFor="let approval of allapproval; let i = index">
+                <td>{{i+1}}</td>
+
                 <td>
                     <input type="checkbox" id="stagingId" name="stagingId" value = {{approval.stagingId}} class="form-control" (click) = "checkedAP(approval)" [(checked)] = "checked">
                 </td>
