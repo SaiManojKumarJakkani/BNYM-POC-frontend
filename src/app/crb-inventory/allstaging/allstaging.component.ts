@@ -5,6 +5,7 @@ import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { NgForm, FormGroup, FormBuilder, FormControl} from '@angular/forms';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 
+
 @Component({
   selector: 'app-allstaging',
   templateUrl: './allstaging.component.html',
@@ -136,9 +137,7 @@ upload() {
   this.message = null;
   if(confirm("Are you sure, you want to Upload this file ?")) {
   this.currentFileUpload = this.selectedFiles.item(0);
-  this.crbService.uploadFile(this.currentFileUpload).subscribe((event) => {
-    console.log("check",event);
-    
+  this.crbService.uploadFile(this.currentFileUpload).subscribe((event) => {    
     if (event instanceof HttpResponse) {
       this.message = event.body.message;
       //this.message = "Uploaded Successfuly!";
@@ -160,6 +159,7 @@ onSelect(){
      this.message = "your record successfuly submited to Inaproval state";
      //alert(message);
     this.ngOnInit();
+
   })
 }
 

@@ -12,6 +12,7 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
+              <th>S.No</th>
                 <th>All
                 <div style="size: 5px;">
                     <input  type="checkbox" id="id" name="id" class="form-control" (click)="checkedARAll()" [(checked)]="checked">
@@ -23,7 +24,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let approval of allapproval">
+            <tr *ngFor="let approval of allapproval; let i = index">
+              <td>{{i+1}}</td>
                 <td >
                 <input type="checkbox" id="id" name="id" value="{{approval.id}}" class="form-control" (click)="checkedAR(approval)" [(checked)]="checked">
                 </td>

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpEvent, HttpRequest, HttpResponse} from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { LocationStaging } from './LocationStaging';
+import { LocationStaging } from '../modal/LocationStaging';
 import { map } from 'rxjs/operators';
-import { ResponseMessage } from './ResponseMessage';
+import { ResponseMessage } from '../modal/ResponseMessage';
 
 
 @Injectable({

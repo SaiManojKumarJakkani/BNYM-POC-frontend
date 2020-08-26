@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { LocationStaging } from 'src/app/LocationStaging';
-import { LocationNormalization } from 'src/app/LocationNormalization.service';
+import { LocationStaging } from 'src/app/modal/LocationStaging';
+import { LocationNormalization } from 'src/app/services/LocationNormalization.service';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { NgForm, FormGroup, FormBuilder, FormControl} from '@angular/forms';
 
@@ -20,9 +20,6 @@ export class AllapprovalComponent implements OnInit {
   checked:boolean;
   rejectNotesAll:string;
   message:string;
-
-
-
   constructor(private locationNormalization:LocationNormalization,private modalService : NgbModal,private fb : FormBuilder) { }
 
   ngOnInit(): void {
@@ -44,7 +41,6 @@ export class AllapprovalComponent implements OnInit {
   }
   openDetails(targetModal, stagin: LocationStaging) {
     this.message=null;
-
     this.modalService.open(targetModal, {
      centered: true,
      backdrop: 'static',
@@ -70,15 +66,17 @@ export class AllapprovalComponent implements OnInit {
 }
 openDetailsAll(targetModal) {
   this.message=null;
-
+  if(this.selectRecord!=null && this.selectRecord.length!=0){
   this.modalService.open(targetModal, {
    centered: true,
    backdrop: 'static',
    size: 'lg'
  });
 }
+}
 checkedAR(id:LocationStaging){
   this.message=null;
+  
 
   if(!this.selectRecord) 
   this.selectRecord=[id]
@@ -105,7 +103,8 @@ checkedARAll(){
 }
 onSelect(s:string) {
   this.message=null;
-  if(confirm("Are you sure, you want to submit the records for Approval?")){
+  if(this.selectRecord!=null && this.selectRecord.length!=0){
+  if(confirm("Are you sure, you want to "+s+"?")){
     for (var i = 0; i < this.selectRecord.length; i++) {
       this.selectRecord[i].rejectionNotes = this.rejectNotesAll;
       }  
@@ -114,6 +113,7 @@ onSelect(s:string) {
     this.ngOnInit();
     this.modalService.dismissAll(); //dismiss the modal
   })
+}
 }
 }
 }
