@@ -1,0 +1,14 @@
+#staging{
+    font-size: 22px;
+    cursor: pointer;
+    border: auto;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+}
+#approval{
+    font-size: 22px;
+    cursor: pointer;
+    border: auto;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+}

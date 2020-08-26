@@ -35,4 +35,17 @@
 #confirm .message {
     text-align: left;
 }
+
+.btn:hover{
+    background-color: #51b954;
+    color: black;
+    margin: 10px;
+    
+}
+
+.modal-title{
+    color: #40a342;
+    text-align: center;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
   
